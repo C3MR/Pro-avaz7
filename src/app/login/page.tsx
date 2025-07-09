@@ -1,0 +1,177 @@
+
+"use client";
+
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { LogIn, AlertCircle, Loader2, KeyRound, UserCircle } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+import { mockUsers } from "@/app/dashboard/page"; 
+
+const loginSchema = z.object({
+  email: z.string().email({ message: "الرجاء إدخال بريد إلكتروني صالح (UserID)." }),
+  password: z.string().min(1, { message: "كلمة المرور مطلوبة." }),
+});
+
+export default function LoginPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof loginSchema>) => {
+    setIsLoading(true);
+    setError(null);
+
+    // Mock authentication
+    setTimeout(() => {
+      const user = mockUsers.find(
+        (u) => u.email === values.email && u.password === values.password
+      );
+
+      if (user) {
+        sessionStorage.setItem(
+          "loggedInUser",
+          JSON.stringify({ email: user.email, name: user.name, role: user.role })
+        );
+        toast({
+          title: "تسجيل الدخول ناجح",
+          description: `مرحباً بك ${user.name}!`,
+        });
+        const redirectUrl = searchParams.get("redirect") || "/dashboard";
+        router.push(redirectUrl);
+      } else {
+        setError("اسم المستخدم أو كلمة المرور غير صحيحة.");
+        toast({
+          variant: "destructive",
+          title: "فشل تسجيل الدخول",
+          description: "اسم المستخدم أو كلمة المرور غير صحيحة.",
+        });
+      }
+      setIsLoading(false);
+    }, 1000); // Simulate network delay
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-muted/40 p-4" dir="rtl">
+        <div className="w-full max-w-4xl mx-auto lg:max-w-5xl">
+            <div className="bg-card text-card-foreground shadow-2xl rounded-2xl overflow-hidden grid lg:grid-cols-2">
+                <div className="p-8 md:p-12 order-2 lg:order-1">
+                    <div className="text-center lg:text-right mb-10">
+                        <Link href="/" className="inline-block mb-6">
+                             <Image 
+                                src="https://avaz.sa/tower/images/logo-avaz.png" 
+                                alt="AVAZ Logo"
+                                width={180}
+                                height={50}
+                                className="mx-auto lg:mx-0 h-auto"
+                                data-ai-hint="company logo"
+                            />
+                        </Link>
+                        <h1 className="text-3xl font-bold text-accent font-headline">تسجيل الدخول للوحة التحكم</h1>
+                        <p className="text-muted-foreground mt-2">مرحباً بعودتك! يرجى إدخال بياناتك.</p>
+                    </div>
+
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-md">اسم المستخدم (البريد الإلكتروني)</FormLabel>
+                                        <div className="relative">
+                                            <UserCircle className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground rtl:left-auto rtl:right-3"/>
+                                            <FormControl>
+                                                <Input
+                                                    type="email"
+                                                    placeholder="example@avaz.sa"
+                                                    {...field}
+                                                    className="form-input pl-10 rtl:pr-10 text-lg h-12 bg-muted/50 border-border"
+                                                    dir="ltr"
+                                                />
+                                            </FormControl>
+                                        </div>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="password"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-md">كلمة المرور</FormLabel>
+                                        <div className="relative">
+                                            <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground rtl:left-auto rtl:right-3"/>
+                                            <FormControl>
+                                                <Input
+                                                    type="password"
+                                                    placeholder="••••••••"
+                                                    {...field}
+                                                    className="form-input pl-10 rtl:pr-10 text-lg h-12 bg-muted/50 border-border"
+                                                    dir="ltr"
+                                                />
+                                            </FormControl>
+                                        </div>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {error && (
+                                <div className="flex items-center p-3 bg-destructive/10 border border-destructive text-destructive rounded-md text-sm">
+                                    <AlertCircle className="h-5 w-5 ml-2 shrink-0" />
+                                    <p>{error}</p>
+                                </div>
+                            )}
+                            <div className="flex items-center justify-between">
+                                <Link href="#" className="text-sm text-primary hover:underline">نسيت كلمة المرور؟</Link>
+                            </div>
+                            <Button type="submit" className="w-full text-lg py-6 shadow-lg bg-primary hover:bg-primary/90" disabled={isLoading}>
+                                {isLoading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <LogIn className="mr-2 h-5 w-5 rtl:ml-2 rtl:mr-0" />}
+                                تسجيل الدخول
+                            </Button>
+                        </form>
+                    </Form>
+                     <p className="mt-8 text-center text-xs text-muted-foreground">
+                        هذه الصفحة مخصصة لموظفي AVAZ. إذا كنت تواجه مشكلة، يرجى الاتصال بالدعم الفني.
+                    </p>
+                </div>
+                <div className="relative hidden lg:block order-1 lg:order-2">
+                     <Image 
+                        src="https://placehold.co/600x800.png"
+                        alt="A modern office building facade reflecting the sky"
+                        fill
+                        className="object-cover"
+                        data-ai-hint="office building modern"
+                     />
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+  );
+}

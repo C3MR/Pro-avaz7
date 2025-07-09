@@ -1,0 +1,164 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* AVAZ Brand Identity */
+    --brand-gold: 39 25% 60%; /* #b3a07f */
+    --brand-dark-blue: 228 30% 44%; /* #4f5b93 */
+    --brand-dark-gray: 0 0% 20%; /* #333333 - For main text */
+    --brand-light-gold: 39 25% 70%; /* #c4b08e */
+    --brand-light-blue: 228 30% 55%; /* #5f6ba3 */
+    --brand-medium-gray: 0 0% 47%; /* #777777 - For muted text */
+    
+    /* Theme Colors */
+    --background: 0 0% 100%; /* Pure White */
+    --foreground: var(--brand-dark-gray); /* Dark text for contrast */
+
+    --card: 0 0% 100%; /* Pure White */
+    --card-foreground: var(--brand-dark-gray);
+
+    --popover: 0 0% 100%; /* White */
+    --popover-foreground: var(--brand-dark-gray);
+
+    --primary: var(--brand-gold); 
+    --primary-foreground: 0 0% 100%; /* White text on gold */
+
+    --secondary: var(--brand-light-blue); 
+    --secondary-foreground: 0 0% 100%; /* White text on light blue */
+
+    --muted: 0 0% 96%; /* #f5f5f5 - Very light gray */
+    --muted-foreground: var(--brand-medium-gray); 
+
+    --accent: var(--brand-dark-blue); 
+    --accent-foreground: 0 0% 100%; /* White text on blue */
+
+    --destructive: 0 70% 50%; /* Adjusted for better visibility */
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 85%; /* #d9d9d9 - Visible border on white */
+    --input: var(--border); 
+    --ring: var(--brand-gold); 
+
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+
+    /* Sidebar specific colors */
+    --sidebar-background: 0 0% 98%; 
+    --sidebar-foreground: var(--brand-dark-gray);
+    --sidebar-primary: var(--brand-gold);
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: var(--brand-dark-blue);
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 90%; 
+    --sidebar-ring: var(--brand-gold);
+  }
+
+  .dark {
+    --brand-gold: 39 25% 60%; 
+    --brand-dark-blue: 228 30% 55%; 
+    --brand-dark-gray: 0 0% 85%; 
+    --brand-light-gold: 39 25% 70%;
+    --brand-light-blue: 228 30% 35%; 
+    --brand-medium-gray: 0 0% 65%; 
+    
+    --background: 0 0% 8%; 
+    --foreground: var(--brand-dark-gray);
+
+    --card: 0 0% 10%; 
+    --card-foreground: var(--brand-dark-gray);
+
+    --popover: 0 0% 10%;
+    --popover-foreground: var(--brand-dark-gray);
+
+    --primary: var(--brand-gold);
+    --primary-foreground: 0 0% 10%; 
+    
+    --secondary: var(--brand-light-blue);
+    --secondary-foreground: 0 0% 90%; 
+
+    --muted: 0 0% 15%; 
+    --muted-foreground: var(--brand-medium-gray);
+
+    --accent: var(--brand-dark-blue); 
+    --accent-foreground: 0 0% 90%;
+
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 20%; 
+    --input: var(--border); 
+    --ring: var(--brand-gold);
+    
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: var(--brand-dark-gray);
+    --sidebar-primary: var(--brand-gold);
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: var(--brand-dark-blue);
+    --sidebar-accent-foreground: 0 0% 90%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: var(--brand-gold);
+  }
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    /* Apply font-family directly using CSS variables provided by next/font */
+    font-family: var(--font-almarai), sans-serif;
+    @apply bg-background text-foreground;
+  }
+  * {
+    @apply border-border;
+  }
+}
+
+@layer components {
+  .input-group {
+    @apply relative;
+  }
+  
+  .input-icon {
+    @apply absolute top-1/2 -translate-y-1/2 w-5 h-5 text-primary pointer-events-none;
+  }
+  
+  [dir="rtl"] .input-icon { @apply right-3 left-auto; }
+  [dir="ltr"] .input-icon { @apply left-3 right-auto; }
+  
+  .form-input { 
+    @apply focus:ring-ring focus:border-primary;
+  }
+  [dir="rtl"] .form-input-padding { @apply pr-10; } 
+  [dir="ltr"] .form-input-padding { @apply pl-10; } 
+
+  .form-textarea-padding { 
+      @apply pt-2; 
+  }
+  [dir="rtl"] .form-textarea-padding { @apply pr-10; }
+  [dir="ltr"] .form-textarea-padding { @apply pl-10; }
+  [dir="rtl"] .textarea-icon { @apply right-3 top-3.5 -translate-y-0; } 
+  [dir="ltr"] .textarea-icon { @apply left-3 top-3.5 -translate-y-0; }
+
+  .usage-option-label {
+      @apply border-2 border-input p-4 rounded-lg text-center font-medium transition-all cursor-pointer hover:border-primary hover:bg-primary/5;
+  }
+  
+  .usage-option-label[data-state="checked"] {
+      @apply border-accent bg-accent/10 text-accent font-bold;
+  }
+}
+    
