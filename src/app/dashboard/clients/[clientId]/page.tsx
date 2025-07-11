@@ -2,7 +2,7 @@
 "use client";
 
 import * as React from "react";
-import { useParams } from 'next/navigation'; 
+import { useParams, useSearchParams } from 'next/navigation'; 
 import { targetedClientsData } from "@/app/dashboard/page"; 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertTriangle, User, Phone, MessageSquare, CalendarDays, Briefcase, Edit, ListChecks, Clock, Forward, MessageCircle, PlusCircle } from "lucide-react";
@@ -35,6 +35,7 @@ function formatPhoneNumberForWhatsApp(phone: string): string {
 
 export default function ClientDetailsPage() {
   const params = useParams();
+  const searchParams = useSearchParams(); // Add searchParams hook even if not immediately used
   const clientId = typeof params.clientId === 'string' ? params.clientId : undefined;
 
   const [client, setClient] = React.useState<TargetedClient | null | undefined>(undefined); 

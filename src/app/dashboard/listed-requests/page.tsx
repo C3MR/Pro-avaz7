@@ -2,7 +2,7 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
+import { useParams, useSearchParams } from 'next/navigation'; 
 import {
   Table,
   TableBody,
@@ -49,6 +49,7 @@ function formatPhoneNumberForWhatsApp(phone: string): string {
 
 export default function ListedRequestsPage() {
   const [allRequests, setAllRequests] = React.useState<PropertyRequest[]>([]);
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = React.useState(true);
   const [searchTermId, setSearchTermId] = React.useState("");
   const [searchTermPhone, setSearchTermPhone] = React.useState("");
@@ -56,6 +57,13 @@ export default function ListedRequestsPage() {
   React.useEffect(() => {
     async function initializeAndFetchData() {
       setIsLoading(true);
+      
+      // Initialize search terms from URL if present
+      const idParam = searchParams.get('id');
+      const phoneParam = searchParams.get('phone');
+      if (idParam) setSearchTermId(idParam);
+      if (phoneParam) setSearchTermPhone(phoneParam);
+      
       try {
         await seedInitialPropertyRequests(); // Attempt to seed data if needed
         const requestsFromDb = await getAllRequests();
@@ -68,7 +76,7 @@ export default function ListedRequestsPage() {
       }
     }
     initializeAndFetchData();
-  }, []);
+  }, [searchParams]);
 
   const filteredRequests = React.useMemo(() => {
     return allRequests.filter((req) => {
