@@ -139,8 +139,7 @@ export default function AddTaskFormDialog({ open, onOpenChange, onTaskCreated, o
         });
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [taskToEdit, open]); 
+  }, [taskToEdit, open, form]);
 
   const currentType = form.watch("type");
 

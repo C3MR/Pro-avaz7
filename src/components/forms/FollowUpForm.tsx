@@ -63,8 +63,7 @@ export default function FollowUpForm({ requestId }: FollowUpFormProps) {
         });
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state, toast]); 
+  }, [state, toast, form]);
 
   return (
     <Card className="shadow-xl border-primary/30">
