@@ -509,9 +509,7 @@ export default function PropertyMatchCalculator() {
       .animate-fadeIn {
         animation: fadeIn 0.5s ease-out forwards;
       }
-        </p>
-      </div>
-    )}
+    `}</style>
   </CardContent>
 </Card>
   );
