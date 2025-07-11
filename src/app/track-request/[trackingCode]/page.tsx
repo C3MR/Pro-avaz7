@@ -2,7 +2,7 @@
 "use client";
 
 import * as React from "react";
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertTriangle, CalendarDays, DollarSign, HomeIcon, Info, ListChecks, MapPin, MessageSquare, Phone, User, Edit3, Briefcase, BedDouble, Bath, Maximize, Minimize, LayoutGrid, Building, GitBranch, Archive, LocateFixed, UserCheck, Loader2, Globe } from "lucide-react";
 import StatusBadge from "@/components/common/StatusBadge";
@@ -82,7 +82,6 @@ export function getCommercialActivityDisplay(activity?: string, otherActivity?: 
 
 export default function RequestDetailsPage() {
   const routeParams = useParams();
-  const searchParams = useSearchParams(); // Add searchParams hook even if not immediately used
   const trackingCode = typeof routeParams.trackingCode === 'string' ? routeParams.trackingCode : undefined;
   const [request, setRequest] = React.useState<PropertyRequest | null | undefined>(undefined);
   const [isLoading, setIsLoading] = React.useState(true);

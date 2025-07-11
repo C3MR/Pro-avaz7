@@ -2,7 +2,7 @@
 "use client";
 
 import * as React from "react";
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -27,7 +27,6 @@ const serviceDetailsMap: Record<ServiceId, { label: string; icon: React.ReactEle
 
 export default function PropertyDetailsPage() {
   const params = useParams();
-  const searchParams = useSearchParams(); // Add searchParams hook even if not immediately used
   const router = useRouter();
   const propertyId = typeof params.propertyId === 'string' ? params.propertyId : undefined;
 
