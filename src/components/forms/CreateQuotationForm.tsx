@@ -316,9 +316,9 @@ export default function CreateQuotationForm() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 border-t border-b mt-6 bg-muted/10">
                  <FormItem><FormLabel className="text-md font-semibold">المجموع الفرعي (قبل الضريبة)</FormLabel><Input type="text" value="يُحسب تلقائياً عند الحفظ" readOnly className="bg-muted/50 cursor-not-allowed text-lg h-11" dir=\"ltr"/></FormItem>
                  <FormField control={form.control} name="taxPercentage" render={({ field }) => (<FormItem><FormLabel className="text-md font-semibold">نسبة الضريبة (%)*</FormLabel><FormControl><Input type="number" dir="ltr" placeholder="15" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? undefined : Number(e.target.value))} min="0" max="100" className="text-lg h-11"/></FormControl><FormMessage /></FormItem>)} />
-                 <FormItem><FormLabel className="text-md font-semibold">مبلغ الضريبة (ر.س)</FormLabel><Input type="text" value="يُحسب تلقائياً عند الحفظ" readOnly className="bg-muted/50 cursor-not-allowed text-lg h-11" dir="ltr"/></FormItem>
+                 <FormItem><FormLabel className="text-md font-semibold">مبلغ الضريبة (ر.س)</FormLabel><Input type="text" value="يُحسب تلقائياً عند الحفظ" readOnly className="bg-muted/50 cursor-not-allowed text-lg h-11" dir=\"ltr"/></FormItem>
             </div>
-            <FormItem><FormLabel className="text-xl font-bold text-primary">المبلغ النهائي للعرض للعميل (شامل الضريبة والخدمات) (ر.س)</FormLabel><Input type="text" value="يُحسب تلقائياً عند الحفظ" readOnly className="form-input bg-primary/10 text-primary font-bold text-2xl h-14 text-center cursor-not-allowed" dir="ltr" /></FormItem>
+            <FormItem><FormLabel className="text-xl font-bold text-primary">المبلغ النهائي للعرض للعميل (شامل الضريبة والخدمات) (ر.س)</FormLabel><Input type="text" value="يُحسب تلقائياً عند الحفظ" readOnly className="form-input bg-primary/10 text-primary font-bold text-2xl h-14 text-center cursor-not-allowed" dir=\"ltr" /></FormItem>
 
 
             <div className="p-4 border rounded-md bg-accent/5 mt-6">
@@ -326,7 +326,7 @@ export default function CreateQuotationForm() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <FormField control={form.control} name="commissionType" render={({ field }) => (<FormItem><FormLabel>نوع العمولة</FormLabel><Select onValueChange={(value) => { field.onChange(value as CommissionType | undefined); form.setValue("commissionValue", undefined); }} value={field.value}><FormControl><SelectTrigger><SelectValue placeholder="اختر نوع العمولة..." /></SelectTrigger></FormControl><SelectContent>{commissionTypeOptions.map(opt => (<SelectItem key={opt.value} value={opt.value}>{opt.labelAr}</SelectItem>))}</SelectContent></Select><FormMessage /></FormItem>)} />
                     {watchCommissionType && (<FormField control={form.control} name="commissionValue" render={({ field }) => (<FormItem><FormLabel>{watchCommissionType === "percentage" ? "نسبة العمولة (%)" : "مبلغ العمولة (ر.س)"}</FormLabel><FormControl><Input type="number" dir="ltr" placeholder={watchCommissionType === "percentage" ? "2.5" : "5000"} {...field} value={field.value === undefined ? '' : String(field.value)} onChange={e => field.onChange(e.target.value === '' ? undefined : Number(e.target.value))} min="0" step={watchCommissionType === "percentage" ? "0.01" : "any"}/></FormControl><FormMessage /></FormItem>)} />)}
-                    <FormItem><FormLabel>إجمالي مبلغ العمولة (ر.س)</FormLabel><Input type="text" value="يُحسب تلقائياً عند الحفظ" readOnly className="bg-muted/50 cursor-not-allowed" dir="ltr"/><ShadFormDescription>تُحسب من المجموع الفرعي (قبل الضريبة).</ShadFormDescription></FormItem>
+                    <FormItem><FormLabel>إجمالي مبلغ العمولة (ر.س)</FormLabel><Input type="text" value="يُحسب تلقائياً عند الحفظ" readOnly className="bg-muted/50 cursor-not-allowed" dir=\"ltr"/><ShadFormDescription>تُحسب من المجموع الفرعي (قبل الضريبة).</ShadFormDescription></FormItem>
                 </div>
             </div>
           
