@@ -168,6 +168,7 @@ export interface CommunicationEntry {
   notes: string;
   employee: string;
   date: string;
+}
 
 export interface TargetedClient {
   id: string;
