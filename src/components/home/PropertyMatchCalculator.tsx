@@ -495,7 +495,7 @@ export default function PropertyMatchCalculator() {
         </div>
         <div className="p-4 border border-primary/10 bg-primary/5 rounded-lg max-w-3xl mx-auto mt-10">
           <p className="text-sm text-center text-muted-foreground leading-relaxed">
-            <strong className="text-primary font-bold">ملاحظة هامة:</strong> هذه النسب هي تقديرات أولية بناءً على البيانات التي أدخلتها. تهدف لمساعدتك في تقييم مدى تطابق طلبك مع المعايير العامة للسوق والفرص المتوفرة. لا تمثل هذه النتائج عروضًا فعلية أو ضمانًا للحصول على عقار معين. للحصول على تحليل دقيق وعروض مخصصة، ننصحك <Link href="/new-request" className="text-primary hover:underline font-medium">بتقديم طلب عقاري مفصل</Link> أو <Link href="/contact-us" className="text-primary hover:underline font-medium">بالتواصل مباشرة مع فريق خبرائنا في أفاز العقارية</Link>.
+            <strong className="text-primary font-bold">ملاحظة هامة:</strong> هذه النسب هي تقديرات أولية بناءً على البيانات التي أدخلتها. تهدف لمساعدتك في تقييم مدى تطابق طلبك مع المعايير العامة للسوق والفرص المتوفرة. لا تمثل هذه النتائج عروضًا فعلية أو ضمانًا للحصول على عقار معين. للحصول على تحليل دقيق وعروض مخصصة، ننصحك <Link href="/new-request" className=\"text-primary hover:underline font-medium">بتقديم طلب عقاري مفصل</Link> أو <Link href="/contact-us" className=\"text-primary hover:underline font-medium">بالتواصل مباشرة مع فريق خبرائنا في أفاز العقارية</Link>.
           </p>
         </div>
       </div>
