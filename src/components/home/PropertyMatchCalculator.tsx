@@ -76,6 +76,7 @@ const commercialCategoriesList: { value: CommercialCategory; labelAr: string; la
 ];
 
 const serviceOptionsList: { id: ServiceId; label: string; icon: React.ComponentType<any> }[] = [
+const serviceOptionsList: { id: ServiceId; label: string; icon: React.FC }[] = [
   { id: 'cleaning_utilities', label: 'نظافة المرافق', icon: Building2Icon },
   { id: 'corridor_electricity', label: 'كهرباء الممرات', icon: Zap },
   { id: 'security_guard', label: 'حراسة', icon: ShieldCheck },
