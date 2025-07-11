@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ArrowLeft, Search, MapPin as MapPinIconLucide, Briefcase, ShieldCheck, Handshake, Building, Settings, Home as HomeIconLucide, GalleryHorizontalEnd, LineChart, HeartHandshake, ClipboardEdit, Building2 as Building2Icon, PlusCircle, Percent, Lightbulb, Users, Camera, Megaphone, Globe, Headset, CircleDollarSign, Wrench, FileText, BarChartBig, SearchCheck, MapIcon, Store, X, Landmark, Sofa, Map, Star, TrendingUp, BookOpen, Compass, Map as MapIconNav } from 'lucide-react';
+import { ArrowLeft, Search, MapPin as MapPinIconLucide, Briefcase, ShieldCheck, Handshake, Building, Settings, Home as HomeIconLucide, GalleryHorizontalEnd, LineChart, HeartHandshake, ClipboardEdit, Building2 as Building2Icon, PlusCircle, Percent, Lightbulb, Users, Camera, Megaphone, Globe, Headset, CircleDollarSign, Wrench, FileText, BarChartBig, SearchCheck, MapIcon, Store, X, Landmark, Sofa, Map, Star, TrendingUp, BookOpen, Compass, Map as MapIconNav, CalendarDays, DollarSign, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -200,27 +200,40 @@ const testimonials = [
   },
 ];
 
-const latestInsights = [
-  { 
-    title: "مستقبل الاستثمار العقاري في الرياض: رؤية 2030 وما بعدها", 
-    image: "https://placehold.co/600x400.png", 
-    dataAiHint: "riyadh future skyline", 
-    description: "تحليل معمق للفرص الواعدة والتحديات المتوقعة في سوق الرياض العقاري، وكيف تساهم رؤية المملكة في إعادة تشكيل المشهد.",
-    link: "/insights/riyadh-investment-future"
+// بيانات تمثيلية لأحدث صفقات السوق العقاري
+const latestMarketTransactions = [
+  {
+    id: "TX001",
+    date: new Date("2025-04-18"),
+    neighborhood: "النرجس",
+    propertyType: "فيلا",
+    area: 450,
+    price: 2800000,
+    pricePerMeter: 6222,
+    image: "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    dataAiHint: "modern villa exterior"
   },
   { 
-    title: "الذكاء الاصطناعي في خدمة القطاع العقاري: كيف يغير قواعد اللعبة؟", 
-    image: "https://placehold.co/600x400.png", 
-    dataAiHint: "ai real estate", 
-    description: "استكشاف دور التقنيات الذكية والذكاء الاصطناعي في تحسين كفاءة إدارة الأملاك، تخصيص العروض، وتوفير تجارب عملاء فريدة.",
-    link: "/insights/ai-in-real-estate" 
+    id: "TX002",
+    date: new Date("2025-04-15"),
+    neighborhood: "العارض",
+    propertyType: "أرض تجارية",
+    area: 1200,
+    price: 15000000,
+    pricePerMeter: 12500,
+    image: "https://images.pexels.com/photos/129494/pexels-photo-129494.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    dataAiHint: "commercial land plot"
   },
   { 
-    title: "دليلك الشامل لشراء عقار لأول مرة في المملكة العربية السعودية", 
-    image: "https://placehold.co/600x400.png", 
-    dataAiHint: "family keys new house", 
-    description: "خطوات ونصائح أساسية لمساعدة المشترين الجدد على اتخاذ قرارات مستنيرة، من التخطيط المالي إلى فهم الإجراءات القانونية وإتمام الصفقة.",
-    link: "/insights/ksa-first-time-homebuyer-guide"
+    id: "TX003",
+    date: new Date("2025-04-12"),
+    neighborhood: "الصحافة",
+    propertyType: "شقة",
+    area: 180,
+    price: 950000,
+    pricePerMeter: 5277,
+    image: "https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    dataAiHint: "modern apartment building"
   },
 ];
 
@@ -393,48 +406,76 @@ export default function Home() {
         </div>
       </section>
       
-      {/* Latest Real Estate Insights Section */}
+      {/* Latest Market Transactions Section */}
       <section className="w-full py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold font-headline text-center text-accent mb-4">
-            أحدث الرؤى والتحليلات للسوق العقاري
+            أحدث الصفقات في سوق الرياض العقاري
           </h2>
           <p className="text-lg text-muted-foreground text-center max-w-3xl mx-auto mb-12 leading-relaxed">
-            ابقَ على اطلاع دائم بآخر المستجدات، التحليلات المتعمقة، والاتجاهات الناشئة في سوق العقارات السعودي، لتمكينك من اتخاذ قرارات استثمارية مدروسة وناجحة.
+            نعرض أحدث الصفقات العقارية في سوق الرياض لمساعدتك على اتخاذ قرارات استثمارية مدروسة بناءً على بيانات حقيقية من السوق.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {latestInsights.map((insight) => (
-              <Card key={insight.title} className="group shadow-lg hover:shadow-xl transition-all duration-300 bg-card overflow-hidden hover:-translate-y-1.5 hover:scale-[1.02]">
-                <Link href={insight.link} className="block">
-                  <div className="relative aspect-[16/10] w-full overflow-hidden">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+            {latestMarketTransactions.map((transaction) => (
+              <Card key={transaction.id} className="group shadow-xl hover:shadow-2xl transition-all duration-300 bg-card overflow-hidden hover:-translate-y-1.5 hover:scale-[1.03]">
+                <div className="block">
+                  <div className="relative aspect-video w-full overflow-hidden bg-muted">
                     <Image
-                      src={insight.image}
-                      alt={`صورة لـ ${insight.title}`}
+                      src={transaction.image}
+                      alt={`صورة عقار في ${transaction.neighborhood}`}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      data-ai-hint={insight.dataAiHint}
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      data-ai-hint={transaction.dataAiHint}
                       loading="lazy"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-70"></div>
+                    <Badge className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-white border-white/20">
+                      {transaction.propertyType}
+                    </Badge>
                   </div>
-                </Link>
-                <CardContent className="p-6">
-                  <Link href={insight.link}>
-                    <h3 className="text-xl font-bold text-primary group-hover:text-accent transition-colors mb-2 line-clamp-2 leading-tight">{insight.title}</h3>
+                </div>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-lg font-bold text-primary group-hover:text-accent transition-colors">
+                      حي {transaction.neighborhood}
+                    </h3>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <CalendarDays className="h-3.5 w-3.5 ml-1" />
+                      {transaction.date.toLocaleDateString('ar-SA', {year: 'numeric', month: 'numeric', day: 'numeric'})}
+                    </div>
+                  </div>
+                  
+                  <div className="mt-3 grid grid-cols-2 gap-y-2 text-sm">
+                    <div className="flex items-center">
+                      <MapPinIconLucide className="h-4 w-4 ml-1 text-muted-foreground" />
+                      <span className="text-foreground">{transaction.neighborhood}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Maximize2 className="h-4 w-4 ml-1 text-muted-foreground" />
+                      <span className="text-foreground" dir="ltr">{transaction.area} م²</span>
+                    </div>
+                    <div className="flex items-center">
+                      <DollarSign className="h-4 w-4 ml-1 text-muted-foreground" />
+                      <span className="font-medium text-foreground" dir="ltr">{transaction.price.toLocaleString()} ر.س</span>
+                    </div>
+                    <div className="flex items-center">
+                      <TrendingUp className="h-4 w-4 ml-1 text-muted-foreground" />
+                      <span className="text-foreground" dir="ltr">{transaction.pricePerMeter.toLocaleString()} ر.س/م²</span>
+                    </div>
+                  </div>
+                  <Link href="/market-navigator">
+                    <Button className="w-full mt-4 bg-accent hover:bg-accent/90 text-accent-foreground group-hover:bg-primary group-hover:text-white transition-all duration-200">
+                      <Search className="ml-2 h-4 w-4 rtl:mr-2 rtl:ml-0" /> عرض المزيد من الصفقات
+                    </Button>
                   </Link>
-                  <p className="text-sm text-muted-foreground mb-4 line-clamp-3 leading-relaxed">{insight.description}</p>
-                  <Button asChild variant="outline" size="sm">
-                    <Link href={insight.link}>
-                      <BookOpen className="ml-2 h-4 w-4 rtl:mr-2 rtl:ml-0" /> اقرأ التحليل كاملاً
-                    </Link>
-                  </Button>
                 </CardContent>
               </Card>
             ))}
           </div>
-           <div className="text-center mt-12">
-            <Button asChild size="lg" variant="ghost" className="text-accent hover:text-accent/80 hover:bg-accent/5">
-              <Link href="/insights">
-                تصفح جميع الرؤى والتحليلات العقارية <ArrowLeft className="ml-2 h-5 w-5 rtl:mr-2 rtl:ml-0" />
+           <div className="text-center mt-10">
+            <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg transition-transform hover:scale-105">
+              <Link href="/market-navigator">
+                استكشف بيانات السوق العقاري <ArrowLeft className="ml-2 h-5 w-5 rtl:mr-2 rtl:ml-0" />
               </Link>
             </Button>
           </div>

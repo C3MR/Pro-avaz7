@@ -113,8 +113,9 @@ export default function TrackRequestForm() {
     return searchType === "trackingCode" ? "مثال: PR-YY-MM-XXX" : "مثال: 05xxxxxxxx";
   };
   
-  const getSearchIcon = () => {
-    return searchType === "trackingCode" ? <Hash className="h-5 w-5 text-primary" /> : <Smartphone className="h-5 w-5 text-primary" />;
+  const getSearchIcon = (type?: string) => {
+    const currentType = type || searchType;
+    return currentType === "trackingCode" ? <Hash className="h-5 w-5 text-primary" /> : <Smartphone className="h-5 w-5 text-primary" />;
   };
 
   return (
@@ -124,25 +125,31 @@ export default function TrackRequestForm() {
           control={form.control}
           name="searchType"
           render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel className="text-lg">البحث بواسطة:</FormLabel>
+            <FormItem className="space-y-4">
+              <FormLabel className="text-lg text-primary font-medium">البحث بواسطة:</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={(value) => handleSearchTypeChange(value as SearchType)}
                   defaultValue={field.value}
-                  className="flex flex-col space-y-1 sm:flex-row sm:space-y-0 sm:space-x-4 rtl:sm:space-x-reverse"
+                  className="flex flex-col sm:flex-row sm:space-y-0 sm:space-x-6 rtl:sm:space-x-reverse"
                 >
-                  <FormItem className="flex items-center space-x-2 rtl:space-x-reverse">
+                  <FormItem className="flex items-center space-x-3 rtl:space-x-reverse p-3 border rounded-md hover:bg-muted/20 cursor-pointer transition-colors">
                     <FormControl>
                       <RadioGroupItem value="trackingCode" id="trackingCode" />
                     </FormControl>
-                    <FormLabel htmlFor="trackingCode" className="font-normal cursor-pointer">رمز التتبع</FormLabel>
+                    <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                      {getSearchIcon("trackingCode")}
+                      <FormLabel htmlFor="trackingCode" className="font-normal cursor-pointer">رمز التتبع</FormLabel>
+                    </div>
                   </FormItem>
-                  <FormItem className="flex items-center space-x-2 rtl:space-x-reverse">
+                  <FormItem className="flex items-center space-x-3 rtl:space-x-reverse p-3 border rounded-md hover:bg-muted/20 cursor-pointer transition-colors">
                     <FormControl>
                       <RadioGroupItem value="clientPhone" id="clientPhone" />
                     </FormControl>
-                    <FormLabel htmlFor="clientPhone" className="font-normal cursor-pointer">رقم جوال العميل</FormLabel>
+                    <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                      {getSearchIcon("clientPhone")}
+                      <FormLabel htmlFor="clientPhone" className="font-normal cursor-pointer">رقم جوال العميل</FormLabel>
+                    </div>
                   </FormItem>
                 </RadioGroup>
               </FormControl>
@@ -156,7 +163,7 @@ export default function TrackRequestForm() {
           name="searchValue"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-lg">{getSearchLabel()}</FormLabel>
+              <FormLabel className="text-lg text-primary font-medium">{getSearchLabel()}</FormLabel>
               <div className="relative">
                 <div className="absolute inset-y-0 right-3 flex items-center pl-3 pointer-events-none rtl:right-auto rtl:left-3">
                     {getSearchIcon()}
@@ -180,10 +187,12 @@ export default function TrackRequestForm() {
             <p>{state.error}</p>
           </div>
         )}
-
-
-        <Button type="submit" className="w-full text-lg py-6 shadow-md hover:bg-primary/80" disabled={isPending}>
-          {isPending ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Search className="mr-2 h-5 w-5 rtl:ml-2 rtl:mr-0" />}
+        
+        <Button 
+          type="submit" 
+          className="w-full text-lg py-6 shadow-lg hover:shadow-xl hover:bg-primary/90 transition-all mt-8" 
+          disabled={isPending}>
+          {isPending ? <Loader2 className="mr-2 h-5 w-5 animate-spin rtl:ml-2 rtl:mr-0" /> : <Search className="mr-2 h-5 w-5 rtl:ml-2 rtl:mr-0" />}
           بحث عن الطلب
         </Button>
       </form>

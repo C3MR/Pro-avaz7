@@ -94,14 +94,14 @@ const serviceIdEnum = z.enum(serviceOptionsList.map(s => s.id) as [ServiceId, ..
 
 const formSchema = z.object({
   purpose: z.custom<MatchCalculatorPurpose>((val) => matchCalculatorPurposes.map(p => p.value).includes(val as MatchCalculatorPurpose),{
-    message: "الرجاء اختيار الغرض.",
+    message: "الرجاء اختيار الغرض من البحث العقاري.",
   }).optional(),
   usage: z.custom<PropertyUsage>((val) => matchCalculatorUsages.map(u => u.value).includes(val as PropertyUsage), {
-    message: "الرجاء اختيار الاستخدام.",
+    message: "الرجاء تحديد استخدام العقار.",
   }).optional(),
   propertyType: z.string().optional(),
   otherPropertyType: z.string().optional(),
-  area: z.coerce.number().min(1, { message: "المساحة يجب أن تكون أكبر من صفر." }).optional(),
+  area: z.coerce.number().min(1, { message: "المساحة المطلوبة يجب أن تكون أكبر من صفر." }).optional(),
   region: riyadhRegionEnum,
   neighborhood: z.string().optional(),
   budgetMin: z.coerce.number().min(0).optional(),
@@ -173,6 +173,7 @@ const initialResultsData = {
 export default function PropertyMatchCalculator() {
   const [showResults, setShowResults] = useState(false);
   const [resultsData, setResultsData] = useState(initialResultsData);
+  const [isCalculating, setIsCalculating] = useState(false);
 
   const form = useForm<MatchCalculatorFormValues>({
     resolver: zodResolver(formSchema),
@@ -206,8 +207,12 @@ export default function PropertyMatchCalculator() {
   }, [currentRegion]);
 
   function onSubmit(values: MatchCalculatorFormValues) {
+    setIsCalculating(true);
+    
     let overallScore = 50;
-    if (values.purpose) overallScore += 5; if (values.usage) overallScore += 5; if (values.propertyType) overallScore += 8;
+    if (values.purpose) overallScore += 5; 
+    if (values.usage) overallScore += 5; 
+    if (values.propertyType) overallScore += 8;
     if (values.area && values.area > 100) overallScore += 7; else if (values.area) overallScore +=3;
     if (values.region) overallScore += 5; if (values.budgetMax && values.budgetMax > 0) overallScore += 5;
     if (values.bedrooms && values.bedrooms > 0) overallScore += 2; if (values.bathrooms && values.bathrooms > 0) overallScore += 2;
@@ -235,7 +240,12 @@ export default function PropertyMatchCalculator() {
 
     const finalCards = finalBreakdown.map(item => ({ label: item.name, criteria: item.criteria, value: item.value, score: item.score, icon: React.cloneElement(item.icon, { style: { color: item.fill, margin: '0 auto 0.5rem auto', width: '1.75rem', height: '1.75rem' } }), colorVar: item.fill.replace('hsl(var(', '').replace('))', '') }));
     setResultsData({ overall: newOverall, breakdown: finalBreakdown.map(({ name, value, fill, icon }) => ({ name, value, fill, icon })), cards: finalCards, });
-    setShowResults(true);
+    
+    // تأخير إظهار النتائج لتأثير أفضل
+    setTimeout(() => {
+      setIsCalculating(false);
+      setShowResults(true);
+    }, 1500);
   }
 
   function handleReset() {
@@ -259,10 +269,10 @@ export default function PropertyMatchCalculator() {
   };
 
   return (
-    <Card className="w-full shadow-xl border-primary/20" dir="rtl">
-      <CardHeader className="text-center bg-muted/30 rounded-t-lg">
+    <Card className="w-full shadow-xl border-primary/20 hover:shadow-2xl transition-shadow duration-500" dir="rtl">
+      <CardHeader className="text-center bg-gradient-to-r from-primary/10 to-accent/5 rounded-t-lg">
         <CardTitle className="text-3xl font-bold text-primary font-headline flex items-center justify-center gap-3">
-          <Percent className="h-8 w-8 text-primary" /> حاسبة توافق العقار
+          <Percent className="h-9 w-9 text-primary animate-pulse" /> حاسبة توافق العقار
         </CardTitle>
         <CardDescription className="text-md text-muted-foreground pt-1 px-4 leading-relaxed">
           هل تتساءل عن مدى توافق العقار الذي تبحث عنه مع معايير السوق والفرص المتاحة؟ أدخل مواصفات طلبك واحصل على تقدير مبدئي لنسبة التطابق، مما يساعدك على توجيه بحثك بفعالية أكبر.
@@ -273,7 +283,34 @@ export default function PropertyMatchCalculator() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
               <FormField control={form.control} name="purpose" render={({ field }) => (<FormItem><FormLabel>الغرض من الطلب</FormLabel><Select onValueChange={field.onChange} value={field.value ?? ''}><FormControl><SelectTrigger className="form-input"><SelectValue placeholder="اختر الغرض..." /></SelectTrigger></FormControl><SelectContent>{matchCalculatorPurposes.map(p => (<SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>))}</SelectContent></Select><FormMessage /></FormItem>)} />
-              <FormField control={form.control} name="usage" render={({ field }) => (<FormItem><FormLabel>الاستخدام الأساسي</FormLabel><Select onValueChange={(value) => { field.onChange(value); form.setValue("propertyType", undefined); form.setValue("otherPropertyType", ""); form.setValue("commercialCategory", undefined); form.setValue("otherCommercialCategory", ""); form.setValue("bedrooms", undefined); form.setValue("bathrooms", undefined); }} value={field.value ?? ''}><FormControl><SelectTrigger className="form-input"><SelectValue placeholder="اختر الاستخدام..." /></SelectTrigger></FormControl><SelectContent>{matchCalculatorUsages.map(u => (<SelectItem key={u.value} value={u.value}>{u.label}</SelectItem>))}</SelectContent></Select><FormMessage /></FormItem>)} />
+              <FormField control={form.control} name="usage" render={({ field }) => (
+                <FormItem>
+                  <FormLabel>الاستخدام الأساسي</FormLabel>
+                  <Select 
+                    onValueChange={(value) => { 
+                      field.onChange(value); 
+                      form.setValue("propertyType", undefined); 
+                      form.setValue("otherPropertyType", ""); 
+                      form.setValue("commercialCategory", undefined); 
+                      form.setValue("otherCommercialCategory", ""); 
+                      form.setValue("bedrooms", undefined); 
+                      form.setValue("bathrooms", undefined); 
+                    }} 
+                    value={field.value ?? ''}>
+                    <FormControl>
+                      <SelectTrigger className="form-input">
+                        <SelectValue placeholder="اختر الاستخدام..." />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {matchCalculatorUsages.map(u => (
+                        <SelectItem key={u.value} value={u.value}>{u.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )} />
               <FormField control={form.control} name="propertyType" render={({ field }) => (<FormItem><FormLabel>نوع العقار</FormLabel><Select onValueChange={(value) => { field.onChange(value); if (value !== "Other") { form.setValue("otherPropertyType", "");}}} value={field.value ?? ''} disabled={!currentUsage}><FormControl><SelectTrigger className="form-input"><SelectValue placeholder={!currentUsage ? "اختر الاستخدام أولاً" : "اختر نوع العقار..."} /></SelectTrigger></FormControl><SelectContent>{availablePropertyTypes.map(type => (<SelectItem key={type.value} value={type.value}>{type.label}</SelectItem>))}</SelectContent></Select><FormMessage /></FormItem>)} />
             </div>
             {currentPropertyType === 'Other' && currentUsage && (
@@ -373,13 +410,27 @@ export default function PropertyMatchCalculator() {
         )} />
             
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
-          <Button type="submit" size="lg" className="w-full sm:w-auto bg-primary hover:bg-primary/90">
-            <Percent className="ml-2 h-5 w-5" /> حساب نسبة التطابق
+          <Button 
+            type="submit" 
+            size="lg" 
+            className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-lg py-6 px-8 shadow-lg hover:shadow-xl transition-all"
+            disabled={isCalculating}>
+            {isCalculating ? (
+              <>
+                <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full ml-2" />
+                جاري الحساب...
+              </>
+            ) : (
+              <>
+                <Percent className="ml-2 h-5 w-5" /> 
+                حساب نسبة التطابق
+              </>
+            )}
           </Button>
-          <Button type="button" variant="outline" size="lg" onClick={handleReset} className="w-full sm:w-auto">
+          <Button type="button" variant="outline" size="lg" onClick={handleReset} className="w-full sm:w-auto text-lg py-6 px-8" disabled={isCalculating}>
             <RefreshCcw className="ml-2 h-5 w-5" /> إعادة تعبئة النموذج
           </Button>
-          <Button asChild variant="secondary" size="lg" className="w-full sm:w-auto">
+          <Button asChild variant="secondary" size="lg" className="w-full sm:w-auto text-lg py-6 px-8 shadow hover:shadow-md transition-all" disabled={isCalculating}>
             <Link href="/new-request">
               <FilePlus2 className="ml-2 h-5 w-5" /> تقديم طلب عقاري مفصل
             </Link>
@@ -388,27 +439,36 @@ export default function PropertyMatchCalculator() {
       </form>
     </Form>
     {showResults && (
-      <div className="mt-12 pt-8 border-t">
-        <h3 className="text-2xl font-bold text-center text-accent mb-8 font-headline">نتائج تقدير تطابق طلبك العقاري</h3>
+      <div className="mt-12 pt-8 border-t bg-gradient-to-b from-muted/10 to-transparent">
+        <h3 className="text-3xl font-bold text-center text-accent mb-8 font-headline animate-fadeIn">نتائج تقدير تطابق طلبك العقاري</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
           <div className="md:col-span-1 flex flex-col items-center justify-center">
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="100%" height={230}>
               <RadialBarChart innerRadius="70%" outerRadius="100%" data={[{ name: 'Overall', value: resultsData.overall, fill: 'hsl(var(--primary))' }]} startAngle={90} endAngle={-270}>
                 <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
                 <RadialBar background dataKey="value" angleAxisId={0} data={[{ value: 100, fill: "hsl(var(--muted)/0.3)" }]} />
-                <RadialBar dataKey="value" angleAxisId={0} cornerRadius={10}/>
-                <text x="50%" y="48%" textAnchor="middle" dominantBaseline="middle" className="text-4xl font-bold" style={{ fill: 'hsl(var(--primary))' }}>{resultsData.overall}%</text>
-                <text x="50%" y="62%" textAnchor="middle" dominantBaseline="middle" className="text-sm fill-muted-foreground">تطابق تقديري</text>
+                <RadialBar dataKey="value" angleAxisId={0} cornerRadius={10} animationDuration={1500}/>
+                <text 
+                  x="50%" 
+                  y="48%" 
+                  textAnchor="middle" 
+                  dominantBaseline="middle" 
+                  className="text-5xl font-bold"
+                  style={{ fill: 'hsl(var(--primary))' }}
+                >
+                  {resultsData.overall}%
+                </text>
+                <text x="50%" y="62%" textAnchor="middle" dominantBaseline="middle" className="text-sm" style={{ fill: 'hsl(var(--muted-foreground))' }}>تطابق تقديري</text>
               </RadialBarChart>
             </ResponsiveContainer>
           </div>
-          <div className="md:col-span-2">
-            <ResponsiveContainer width="100%" height={250}>
+          <div className="md:col-span-2 animate-fadeIn">
+            <ResponsiveContainer width="100%" height={270}>
               <RechartsBarChart data={resultsData.breakdown} layout="vertical" margin={{ top: 5, right: 20, left: 20, bottom: 5 }} barCategoryGap="35%">
                 <XAxis type="number" domain={[0, Math.max(...resultsData.breakdown.map(item => item.value), 40)]} hide/>
                 <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} width={110} style={{ fontSize: '0.9rem', fill: 'hsl(var(--muted-foreground))' }}/>
                 <Tooltip cursor={{fill: 'hsl(var(--muted)/0.2)'}} contentStyle={{backgroundColor: 'hsl(var(--background))', borderRadius: '0.5rem', borderColor: 'hsl(var(--border))', direction: 'rtl'}} labelStyle={{color: 'hsl(var(--foreground))', fontWeight: 'bold'}} formatter={(value: number, name: string) => [`${value}%`, name]}/>
-                <Bar dataKey="value" radius={[0, 5, 5, 0]} barSize={30}>
+                <Bar dataKey="value" radius={[0, 5, 5, 0]} barSize={30} animationDuration={1200} animationBegin={300}>
                   {resultsData.breakdown.map((entry, index) => (<Cell key={`cell-${index}`} fill={entry.fill} />))}
                   <LabelList dataKey="value" position="center" style={{ fill: 'hsl(var(--primary-foreground))', fontSize: '1rem', fontWeight: 'bold', }} formatter={(value: number) => `${value}%`} />
                 </Bar>
@@ -418,20 +478,37 @@ export default function PropertyMatchCalculator() {
         </div>
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {resultsData.cards.map((card, index) => (
-            <Card key={index} className="bg-card text-center border-border hover:shadow-lg transition-shadow">
+            <Card 
+              key={index} 
+              className="bg-card text-center border-border hover:shadow-lg transition-all duration-300 hover:translate-y-[-5px]"
+              style={{ animationDelay: `${index * 150}ms`, animationDuration: '500ms', animationName: 'fadeIn', animationFillMode: 'forwards' }}>
               <CardHeader className="pb-2 pt-4">
                 {React.cloneElement(card.icon, { style: {...card.icon.props.style }})}
-                <CardTitle className="text-md font-semibold" style={{color: card.colorVar ? `hsl(var(${card.colorVar}))` : 'hsl(var(--foreground))'}}>{card.label}</CardTitle>
+                <CardTitle className="text-lg font-semibold" style={{color: card.colorVar ? `hsl(var(${card.colorVar}))` : 'hsl(var(--foreground))'}}>{card.label}</CardTitle>
               </CardHeader>
-              <CardContent className="pb-4">
+              <CardContent className="pb-5 pt-2">
                 <p className="text-3xl font-bold text-foreground">{card.score}%</p>
-                <p className="text-xs text-muted-foreground mt-1">{card.criteria}</p>
+                <p className="text-xs text-muted-foreground mt-2">{card.criteria}</p>
               </CardContent>
             </Card>
           ))}
         </div>
-        <p className="text-xs text-center text-muted-foreground mt-8 leading-relaxed">
-          **ملاحظة هامة:** هذه النسب هي تقديرات أولية بناءً على البيانات التي أدخلتها. تهدف لمساعدتك في تقييم مدى تطابق طلبك مع المعايير العامة للسوق والفرص المتوفرة. لا تمثل هذه النتائج عروضًا فعلية أو ضمانًا للحصول على عقار معين. للحصول على تحليل دقيق وعروض مخصصة، ننصحك <Link href="/new-request" className="text-primary hover:underline font-medium">بتقديم طلب عقاري مفصل</Link> أو <Link href="/contact-us" className="text-primary hover:underline font-medium">بالتواصل مباشرة مع فريق خبرائنا في أفاز العقارية</Link>.
+        <div className="p-4 border border-primary/10 bg-primary/5 rounded-lg max-w-3xl mx-auto mt-10">
+          <p className="text-sm text-center text-muted-foreground leading-relaxed">
+            <strong className="text-primary font-bold">ملاحظة هامة:</strong> هذه النسب هي تقديرات أولية بناءً على البيانات التي أدخلتها. تهدف لمساعدتك في تقييم مدى تطابق طلبك مع المعايير العامة للسوق والفرص المتوفرة. لا تمثل هذه النتائج عروضًا فعلية أو ضمانًا للحصول على عقار معين. للحصول على تحليل دقيق وعروض مخصصة، ننصحك <Link href="/new-request" className="text-primary hover:underline font-medium">بتقديم طلب عقاري مفصل</Link> أو <Link href="/contact-us" className="text-primary hover:underline font-medium">بالتواصل مباشرة مع فريق خبرائنا في أفاز العقارية</Link>.
+          </p>
+        </div>
+      </div>
+    )}
+    
+    <style jsx global>{`
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
         </p>
       </div>
     )}
