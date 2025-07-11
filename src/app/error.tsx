@@ -3,7 +3,7 @@
 
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, RefreshCcw } from "lucide-react";
+import { AlertTriangle, RefreshCcw, Maximize2 } from "lucide-react";
 import Link from "next/link";
 
 export default function Error({
