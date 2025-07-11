@@ -188,7 +188,6 @@ export default function MarketDataPage() {
       const matchesPropertyType = filterPropertyType === "all"
         ? true
         : transaction.propertyType === filterPropertyType;
-      return matchesNeighborhood && matchesPropertyType;
       
       // تطبيق فلتر المنطقة
       const matchesRegion = regionFilter === "all" 
@@ -221,8 +220,6 @@ export default function MarketDataPage() {
         avgCommercialPricePerM2: 0,
         totalArea: 0
       };
-    }
-      return { totalTransactions: 0, avgPricePerM2: 0, totalValue: 0, latestTransactionDate: null };
     }
     const totalValue = filteredTransactions.reduce((sum, t) => sum + t.priceSAR, 0);
     const totalArea = filteredTransactions.reduce((sum, t) => sum + t.areaM2, 0);
