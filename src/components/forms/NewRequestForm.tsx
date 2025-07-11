@@ -1,4 +1,3 @@
-
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -532,4 +531,3 @@ export default function NewRequestForm() {
                 <Button type="button" variant="outline" onClick={handleNewRequestButtonClickInternal} className="w-full sm:w-auto"><RefreshCw className="mr-2 h-4 w-4 rtl:ml-2 rtl:mr-0" /> طلب جديد</Button>
                 <Button type="submit" className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground" disabled={isSubmitting}>{isSubmitting ? <Loader2 className="animate-spin mr-2 rtl:ml-2 rtl:mr-0" /> : <Send className="mr-2 h-4 w-4 rtl:ml-2 rtl:mr-0" />}حفظ وإرسال الطلب</Button>
             </div></form></Form></div></> );}
-
