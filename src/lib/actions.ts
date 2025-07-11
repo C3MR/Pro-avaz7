@@ -288,12 +288,6 @@ const NewQuotationUserInputSchema = z.object({
   
   scopeOfWork: z.string().optional(),
   paymentTerms: z.string().optional(),
-  termsAndConditions: z.string().optional(),
-  
-  validityPeriodDays: z.coerce.number({invalid_type_error: "فترة الصلاحية يجب أن تكون رقمًا."}).int("فترة الصلاحية يجب أن تكون عددًا صحيحًا.").min(1, "فترة الصلاحية يجب أن تكون يوماً واحداً على الأقل.").optional().default(30),
-  issueDate: z.coerce.date({ required_error: "تاريخ الإصدار مطلوب."}),
-  status: quotationStatusEnum,
-  includedPropertyServices: z.array(serviceIdEnum).optional(),
 }).superRefine((data, ctx) => {
     if (data.serviceType === "other_services" && !data.otherServiceTypeDetail?.trim()) {
         ctx.addIssue({ path: ["otherServiceTypeDetail"], message: "يرجى تحديد تفاصيل الخدمة الأخرى." });

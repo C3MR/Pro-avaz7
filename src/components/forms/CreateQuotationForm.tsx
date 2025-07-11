@@ -199,65 +199,6 @@ export default function CreateQuotationForm() {
     return [];
   }, [watchPropertyUsage]);
 
-  useEffect(() => {
-    let baseValue = 0;
-    if (watchFinancialCalculationBasis === "per_meter" && typeof watchPropertyAreaM2 === 'number' && typeof watchPricePerMeter === 'number') {
-      baseValue = watchPropertyAreaM2 * watchPricePerMeter;
-    } else if (watchFinancialCalculationBasis === "fixed_amount" && typeof watchFixedAmountForService === 'number') {
-      baseValue = watchFixedAmountForService;
-    }
-    if (Math.abs((form.getValues("calculatedPropertyOrServiceBaseValue") || 0) - baseValue) > 0.001) {
-      form.setValue("calculatedPropertyOrServiceBaseValue", parseFloat(baseValue.toFixed(2)));
-    }
-
-    let additionalFeeAmount = 0;
-    if (watchHasAdditionalFees && typeof watchAdditionalFeeValue === 'number') {
-      if (watchAdditionalFeeType === "amount") {
-        additionalFeeAmount = watchAdditionalFeeValue;
-      } else if (watchAdditionalFeeType === "percentage" && baseValue > 0) {
-        additionalFeeAmount = (baseValue * watchAdditionalFeeValue) / 100;
-      }
-    }
-     if (Math.abs((form.getValues("calculatedAdditionalFeeAmount") || 0) - additionalFeeAmount) > 0.001) {
-        form.setValue("calculatedAdditionalFeeAmount", parseFloat(additionalFeeAmount.toFixed(2)));
-    }
-
-    const subTotal = baseValue + additionalFeeAmount;
-    if (Math.abs((form.getValues("subTotalBeforeTax") || 0) - subTotal) > 0.001) {
-        form.setValue("subTotalBeforeTax", parseFloat(subTotal.toFixed(2)));
-    }
-
-    const taxRate = typeof watchTaxPercentage === 'number' ? watchTaxPercentage : 0;
-    const taxAmount = (subTotal * taxRate) / 100;
-    if (Math.abs((form.getValues("calculatedTaxAmount") || 0) - taxAmount) > 0.001) {
-        form.setValue("calculatedTaxAmount", parseFloat(taxAmount.toFixed(2)));
-    }
-
-    const finalAmount = subTotal + taxAmount;
-    if (Math.abs((form.getValues("finalQuotedAmountToClient") || 0) - finalAmount) > 0.001) {
-        form.setValue("finalQuotedAmountToClient", parseFloat(finalAmount.toFixed(2)));
-    }
-    
-    let commissionAmount = 0;
-    const commissionBase = subTotal; 
-    if (watchCommissionType && typeof watchCommissionValue === 'number') {
-        if (watchCommissionType === "amount") {
-            commissionAmount = watchCommissionValue;
-        } else if (watchCommissionType === "percentage" && commissionBase > 0) {
-            commissionAmount = (commissionBase * watchCommissionValue) / 100;
-        }
-    }
-     if (Math.abs((form.getValues("calculatedCommissionAmount") || 0) - commissionAmount) > 0.001) {
-       form.setValue("calculatedCommissionAmount", parseFloat(commissionAmount.toFixed(2)));
-    }
-
-  }, [
-    watchFinancialCalculationBasis, watchPropertyAreaM2, watchPricePerMeter, watchFixedAmountForService,
-    watchHasAdditionalFees, watchAdditionalFeeType, watchAdditionalFeeValue, watchTaxPercentage,
-    watchCommissionType, watchCommissionValue, form
-  ]);
-
-
   useEffect(() => { 
     if (state?.message && !state.errors && state.quotationId) {  
       // Success already handled by the conditional rendering below
@@ -361,7 +302,7 @@ export default function CreateQuotationForm() {
                 {watchFinancialCalculationBasis === "fixed_amount" && (
                     <FormField control={form.control} name="fixedAmountForService" render={({ field }) => (<FormItem><FormLabel>المبلغ المقطوع للعقار/الخدمة (ر.س)*</FormLabel><FormControl><Input type="number" dir="ltr" placeholder="100000" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? undefined : Number(e.target.value))} min="0"/></FormControl><FormMessage /></FormItem>)} />
                 )}
-                 <FormItem><FormLabel>قيمة الإيجار/الخدمة الأساسية (ر.س)</FormLabel><Input type="text" value={(form.getValues("calculatedPropertyOrServiceBaseValue") || 0).toLocaleString('en-US')} readOnly className="bg-muted/50 cursor-not-allowed" dir=\"ltr"/><FormDescription>يُحسب تلقائياً بناءً على الاختيارات أعلاه.</FormDescription></FormItem>
+                 <FormItem><FormLabel>قيمة الإيجار/الخدمة الأساسية (ر.س)</FormLabel><Input type="text" value="يُحسب تلقائياً عند الحفظ" readOnly className="bg-muted/50 cursor-not-allowed" dir="ltr"/><ShadFormDescription>يُحسب تلقائياً بناءً على الاختيارات أعلاه.</ShadFormDescription></FormItem>
             </div>
             
             <FormField control={form.control} name="hasAdditionalFees" render={({ field }) => (<FormItem className="flex flex-row items-center space-x-3 rtl:space-x-reverse space-y-0 border p-3 rounded-md mt-4"><FormControl><Checkbox checked={field.value} onCheckedChange={(checked) => { field.onChange(Boolean(checked)); if(!checked) {form.setValue("additionalFeeType", undefined); form.setValue("additionalFeeValue", undefined);}}} /></FormControl><FormLabel className="font-normal cursor-pointer mb-0 !mt-0">هل توجد رسوم إضافية (مثل صيانة وتشغيل)؟</FormLabel></FormItem>)} />
@@ -369,16 +310,16 @@ export default function CreateQuotationForm() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 border rounded-md bg-muted/20">
                      <FormField control={form.control} name="additionalFeeType" render={({ field }) => (<FormItem><FormLabel>نوع الرسوم الإضافية*</FormLabel><Select onValueChange={(value) => { field.onChange(value as AdditionalFeeType | undefined); form.setValue("additionalFeeValue", undefined);}} value={field.value}><FormControl><SelectTrigger><SelectValue placeholder="اختر نوع الرسوم..." /></SelectTrigger></FormControl><SelectContent>{additionalFeeTypeOptions.map(opt => (<SelectItem key={opt.value} value={opt.value}>{opt.labelAr}</SelectItem>))}</SelectContent></Select><FormMessage /></FormItem>)} />
                      <FormField control={form.control} name="additionalFeeValue" render={({ field }) => (<FormItem><FormLabel>قيمة الرسوم الإضافية*</FormLabel><FormControl><Input type="number" dir="ltr" placeholder={watchAdditionalFeeType === "percentage" ? "5" : "2000"} {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? undefined : Number(e.target.value))} min="0" step={watchAdditionalFeeType === "percentage" ? "0.01" : "any"} /></FormControl><FormDescription>{watchAdditionalFeeType === "percentage" ? "(نسبة مئوية)" : "(مبلغ ثابت ر.س)"}</FormDescription><FormMessage /></FormItem>)} />
-                     <FormItem><FormLabel>إجمالي الرسوم الإضافية (ر.س)</FormLabel><Input type="text" value={(form.getValues("calculatedAdditionalFeeAmount") || 0).toLocaleString('en-US')} readOnly className="bg-muted/50 cursor-not-allowed" dir=\"ltr"/></FormItem>
+                     <FormItem><FormLabel>إجمالي الرسوم الإضافية (ر.س)</FormLabel><Input type="text" value="يُحسب تلقائياً عند الحفظ" readOnly className="bg-muted/50 cursor-not-allowed" dir="ltr"/></FormItem>
                 </div>
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 border-t border-b mt-6 bg-muted/10">
-                 <FormItem><FormLabel className="text-md font-semibold">المجموع الفرعي (قبل الضريبة)</FormLabel><Input type="text" value={(form.getValues("subTotalBeforeTax") || 0).toLocaleString('en-US') + " ر.س"} readOnly className="bg-muted/50 cursor-not-allowed text-lg h-11" dir=\"ltr"/></FormItem>
+                 <FormItem><FormLabel className="text-md font-semibold">المجموع الفرعي (قبل الضريبة)</FormLabel><Input type="text" value="يُحسب تلقائياً عند الحفظ" readOnly className="bg-muted/50 cursor-not-allowed text-lg h-11" dir="ltr"/></FormItem>
                  <FormField control={form.control} name="taxPercentage" render={({ field }) => (<FormItem><FormLabel className="text-md font-semibold">نسبة الضريبة (%)*</FormLabel><FormControl><Input type="number" dir="ltr" placeholder="15" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? undefined : Number(e.target.value))} min="0" max="100" className="text-lg h-11"/></FormControl><FormMessage /></FormItem>)} />
-                 <FormItem><FormLabel className="text-md font-semibold">مبلغ الضريبة (ر.س)</FormLabel><Input type="text" value={(form.getValues("calculatedTaxAmount") || 0).toLocaleString('en-US') + " ر.س"} readOnly className="bg-muted/50 cursor-not-allowed text-lg h-11" dir=\"ltr"/></FormItem>
+                 <FormItem><FormLabel className="text-md font-semibold">مبلغ الضريبة (ر.س)</FormLabel><Input type="text" value="يُحسب تلقائياً عند الحفظ" readOnly className="bg-muted/50 cursor-not-allowed text-lg h-11" dir="ltr"/></FormItem>
             </div>
-            <FormItem><FormLabel className="text-xl font-bold text-primary">المبلغ النهائي للعرض للعميل (شامل الضريبة والخدمات) (ر.س)</FormLabel><Input type="text" value={(form.getValues("finalQuotedAmountToClient") || 0).toLocaleString('en-US')} readOnly className="form-input bg-primary/10 text-primary font-bold text-2xl h-14 text-center cursor-not-allowed" dir=\"ltr" /></FormItem>
+            <FormItem><FormLabel className="text-xl font-bold text-primary">المبلغ النهائي للعرض للعميل (شامل الضريبة والخدمات) (ر.س)</FormLabel><Input type="text" value="يُحسب تلقائياً عند الحفظ" readOnly className="form-input bg-primary/10 text-primary font-bold text-2xl h-14 text-center cursor-not-allowed" dir="ltr" /></FormItem>
 
 
             <div className="p-4 border rounded-md bg-accent/5 mt-6">
@@ -386,7 +327,7 @@ export default function CreateQuotationForm() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <FormField control={form.control} name="commissionType" render={({ field }) => (<FormItem><FormLabel>نوع العمولة</FormLabel><Select onValueChange={(value) => { field.onChange(value as CommissionType | undefined); form.setValue("commissionValue", undefined); }} value={field.value}><FormControl><SelectTrigger><SelectValue placeholder="اختر نوع العمولة..." /></SelectTrigger></FormControl><SelectContent>{commissionTypeOptions.map(opt => (<SelectItem key={opt.value} value={opt.value}>{opt.labelAr}</SelectItem>))}</SelectContent></Select><FormMessage /></FormItem>)} />
                     {watchCommissionType && (<FormField control={form.control} name="commissionValue" render={({ field }) => (<FormItem><FormLabel>{watchCommissionType === "percentage" ? "نسبة العمولة (%)" : "مبلغ العمولة (ر.س)"}</FormLabel><FormControl><Input type="number" dir="ltr" placeholder={watchCommissionType === "percentage" ? "2.5" : "5000"} {...field} value={field.value === undefined ? '' : String(field.value)} onChange={e => field.onChange(e.target.value === '' ? undefined : Number(e.target.value))} min="0" step={watchCommissionType === "percentage" ? "0.01" : "any"}/></FormControl><FormMessage /></FormItem>)} />)}
-                    <FormItem><FormLabel>إجمالي مبلغ العمولة (ر.س)</FormLabel><Input type="text" value={(form.getValues("calculatedCommissionAmount") || 0).toLocaleString('en-US') + " ر.س"} readOnly className="bg-muted/50 cursor-not-allowed" dir=\"ltr"/><FormDescription>تُحسب من المجموع الفرعي (قبل الضريبة).</FormDescription></FormItem>
+                    <FormItem><FormLabel>إجمالي مبلغ العمولة (ر.س)</FormLabel><Input type="text" value="يُحسب تلقائياً عند الحفظ" readOnly className="bg-muted/50 cursor-not-allowed" dir="ltr"/><ShadFormDescription>تُحسب من المجموع الفرعي (قبل الضريبة).</ShadFormDescription></FormItem>
                 </div>
             </div>
           
@@ -405,7 +346,7 @@ export default function CreateQuotationForm() {
               <FormItem>
                 <div className="mb-2">
                   <FormLabel className="text-base font-semibold flex items-center gap-2"><ListChecks className="w-4 h-4 text-muted-foreground"/>الخدمات العقارية المتضمنة (إن وجدت)</FormLabel>
-                  <FormDescription>اختر الخدمات التي سيتم تضمينها في هذا العرض (عادة لإدارة الأملاك).</FormDescription>
+                  <ShadFormDescription>اختر الخدمات التي سيتم تضمينها في هذا العرض (عادة لإدارة الأملاك).</ShadFormDescription>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                   {propertyServiceOptions.map((service) => (
