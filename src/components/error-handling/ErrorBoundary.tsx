@@ -1,3 +1,5 @@
+'use client';
+
 import React, { Component, ReactNode, ErrorInfo } from 'react';
 import { errorLogger } from '@/lib/error-handling/error-logger';
 import { Button } from '@/components/ui/button';
