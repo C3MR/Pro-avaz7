@@ -43,8 +43,7 @@ export default function RootLayout({
            <Toaster />
          </ErrorBoundary>
        </QueryClientProvider>
+      </body>
+    </html>
   );
-}
-    
-  )
 }
