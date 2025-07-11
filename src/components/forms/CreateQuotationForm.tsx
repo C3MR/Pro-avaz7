@@ -1,4 +1,3 @@
-
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -260,7 +259,7 @@ export default function CreateQuotationForm() {
           
           <SectionTitle title="2. بيانات الخدمة (نوع عرض السعر)" icon={<PackageSearch />} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-            <FormField control={form.control} name="serviceType" render={({ field }) => (<FormItem><FormLabel>نوع الخدمة الرئيسية*</FormLabel><Select onValueChange={(val) => {field.onChange(val); if(val !== 'other_services') form.setValue('otherServiceTypeDetail', '');}} value={field.value}><FormControl><SelectTrigger><SelectValue placeholder="اختر نوع الخدمة..." /></SelectTrigger></FormControl><SelectContent>{quotationServiceTypes.map(opt => (<SelectItem key={opt.value} value={opt.value}>{React.cloneElement(opt.icon, {className: "inline h-4 w-4 ml-2 rtl:mr-2 rtl:ml-0"})} {opt.labelAr}</SelectItem>))}</SelectContent></Select><FormMessage /></FormItem>)} />
+            <FormField control={form.control} name="serviceType" render={({ field }) => (<FormItem><FormLabel>نوع الخدمة الرئيسية*</FormLabel><Select onValueChange={(val) => {field.onChange(val); if(val !== 'other_services') form.setValue('otherServiceTypeDetail', '');}} value={field.value}><FormControl><SelectTrigger><SelectValue placeholder="اختر نوع الخدمة..." /></SelectTrigger></FormControl><SelectContent>{quotationServiceTypes.map(opt => (<SelectItem key={opt.value} value={opt.value}>{React.createElement(opt.icon, {className: "inline h-4 w-4 ml-2 rtl:mr-2 rtl:ml-0"})} {opt.labelAr}</SelectItem>))}</SelectContent></Select><FormMessage /></FormItem>)} />
             {watchServiceType === "other_services" && <FormField control={form.control} name="otherServiceTypeDetail" render={({ field }) => (<FormItem><FormLabel>تحديد تفاصيل الخدمة الأخرى</FormLabel><FormControl><Input placeholder="أدخل وصف الخدمة" {...field} /></FormControl><FormMessage /></FormItem>)} />}
             <FormField control={form.control} name="subject" render={({ field }) => (<FormItem className={watchServiceType === "other_services" ? "" : "md:col-span-1"}><FormLabel>موضوع العرض*</FormLabel><FormControl><Input placeholder="مثال: عرض سعر خدمات إدارة أملاك لعقار..." {...field} /></FormControl><FormMessage /></FormItem>)} />
           </div>

@@ -74,14 +74,6 @@ const licenses: {badgeText: string; title: string; icon: React.ReactElement; lic
   },
 ];
 
-interface AvazWebService {
-  icon: React.ReactElement;
-  title: string;
-  description: string;
-  dialogTitle: string;
-  dialogIcon: React.ReactElement;
-  dialogDetails: React.ReactNode;
-}
 
 const avazWebServices: AvazWebService[] = [
   {
