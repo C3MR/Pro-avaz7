@@ -93,8 +93,6 @@ const serviceOptionsList: { id: ServiceId; label: string; icon: React.ReactEleme
 const riyadhRegionEnum = z.custom<RiyadhRegion>((val) => RIYADH_REGIONS.map(r => r.value).includes(val as RiyadhRegion) || val === undefined, { message: "الرجاء اختيار النطاق" }).optional();
 const serviceIdEnum = z.enum(serviceOptionsList.map(s => s.id) as [ServiceId, ...ServiceId[]]);
 
-const riyadhRegionEnum = z.custom<RiyadhRegion>((val) => RIYADH_REGIONS.map(r => r.value).includes(val as RiyadhRegion) || val === undefined, { message: "الرجاء اختيار النطاق" }).optional();
-
 const formSchema = z.object({
   purpose: z.custom<MatchCalculatorPurpose>((val) => matchCalculatorPurposes.map(p => p.value).includes(val as MatchCalculatorPurpose),{
     message: "الرجاء اختيار الغرض من البحث العقاري.",
