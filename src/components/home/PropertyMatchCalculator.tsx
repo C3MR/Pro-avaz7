@@ -76,18 +76,18 @@ const commercialCategoriesList: { value: CommercialCategory; labelAr: string; la
     { value: "Other", labelAr: "أخرى", labelEn: "Other"},
 ];
 
-const serviceOptionsList: { id: ServiceId; label: string; icon: React.ReactElement }[] = [
-  { id: 'cleaning_utilities', label: 'نظافة المرافق', icon: <Building2Icon className="w-5 h-5" /> },
-  { id: 'corridor_electricity', label: 'كهرباء الممرات', icon: <Zap className="w-5 h-5" /> },
-  { id: 'security_guard', label: 'حراسة', icon: <ShieldCheck className="w-5 h-5" /> },
-  { id: 'general_cleaning', label: 'نظافة عامة', icon: <Sparkles className="w-5 h-5" /> },
-  { id: 'general_maintenance', label: 'صيانة عامة', icon: <Wrench className="w-5 h-5" /> },
-  { id: 'electricity_bill_mgmt', label: 'إدارة فاتورة الكهرباء', icon: <ReceiptText className="w-5 h-5" /> },
-  { id: 'water_supply', label: 'مياه', icon: <Droplets className="w-5 h-5" /> },
-  { id: 'civil_defense_compliance', label: 'متوافق مع الدفاع المدني', icon: <Siren className="w-5 h-5" /> },
-  { id: 'elevators', label: 'مصاعد', icon: <ArrowUpDown className="w-5 h-5" /> },
-  { id: 'parking', label: 'موقف سيارات', icon: <CarIcon className="w-5 h-5" /> },
-  { id: 'wifi', label: 'واي فاي', icon: <Wifi className="w-5 h-5" /> },
+const serviceOptionsList: { id: ServiceId; label: string; icon: React.ComponentType<any> }[] = [
+  { id: 'cleaning_utilities', label: 'نظافة المرافق', icon: Building2Icon },
+  { id: 'corridor_electricity', label: 'كهرباء الممرات', icon: Zap },
+  { id: 'security_guard', label: 'حراسة', icon: ShieldCheck },
+  { id: 'general_cleaning', label: 'نظافة عامة', icon: Sparkles },
+  { id: 'general_maintenance', label: 'صيانة عامة', icon: Wrench },
+  { id: 'electricity_bill_mgmt', label: 'إدارة فاتورة الكهرباء', icon: ReceiptText },
+  { id: 'water_supply', label: 'مياه', icon: Droplets },
+  { id: 'civil_defense_compliance', label: 'متوافق مع الدفاع المدني', icon: Siren },
+  { id: 'elevators', label: 'مصاعد', icon: ArrowUpDown },
+  { id: 'parking', label: 'موقف سيارات', icon: CarIcon },
+  { id: 'wifi', label: 'واي فاي', icon: Wifi },
 ];
 
 const riyadhRegionEnum = z.custom<RiyadhRegion>((val) => RIYADH_REGIONS.map(r => r.value).includes(val as RiyadhRegion) || val === undefined, { message: "الرجاء اختيار النطاق" }).optional();
@@ -161,14 +161,14 @@ const formSchema = z.object({
 const initialResultsData = {
   overall: 75,
   breakdown: [
-    { name: 'استخدام العقار', value: 24, fill: 'hsl(var(--chart-3))', icon: <Building2Icon className="h-5 w-5" /> },
-    { name: 'الموقع', value: 28, fill: 'hsl(var(--chart-2))', icon: <LocateFixed className="h-5 w-5" /> },
-    { name: 'المساحة', value: 23, fill: 'hsl(var(--chart-1))', icon: <Square className="h-5 w-5" /> },
+    { name: 'استخدام العقار', value: 24, fill: 'hsl(var(--chart-3))', icon: Building2Icon },
+    { name: 'الموقع', value: 28, fill: 'hsl(var(--chart-2))', icon: LocateFixed },
+    { name: 'المساحة', value: 23, fill: 'hsl(var(--chart-1))', icon: Square },
   ],
   cards: [
-    { label: 'استخدام العقار', criteria: 'نوع واستخدام العقار', value: 24, score: 88, icon: <Building2Icon className="h-7 w-7" />, colorVar: 'hsl(var(--chart-3))' },
-    { label: 'الموقع', criteria: 'الحي والنطاق الجغرافي', value: 28, score: 92, icon: <LocateFixed className="h-7 w-7" />, colorVar: 'hsl(var(--chart-2))' },
-    { label: 'المساحة', criteria: 'المساحة المقترحة مقابل المطلوبة', value: 23, score: 85, icon: <Square className="h-7 w-7" />, colorVar: 'hsl(var(--chart-1))' },
+    { label: 'استخدام العقار', criteria: 'نوع واستخدام العقار', value: 24, score: 88, icon: Building2Icon, colorVar: 'hsl(var(--chart-3))' },
+    { label: 'الموقع', criteria: 'الحي والنطاق الجغرافي', value: 28, score: 92, icon: LocateFixed, colorVar: 'hsl(var(--chart-2))' },
+    { label: 'المساحة', criteria: 'المساحة المقترحة مقابل المطلوبة', value: 23, score: 85, icon: Square, colorVar: 'hsl(var(--chart-1))' },
   ]
 };
 
@@ -225,10 +225,10 @@ export default function PropertyMatchCalculator() {
     
     const newOverall = overallScore;
     const breakdown = [
-        { name: 'استخدام ونوع العقار', criteria: 'نوع واستخدام العقار المحدد', value: values.usage && values.propertyType ? Math.floor(Math.random() * 10) + 20 : 5, fill: 'hsl(var(--chart-3))', icon: <Building2Icon className="h-5 w-5" />, score: Math.floor(Math.random() * 20) + 75 },
-        { name: 'الموقع والتفضيلات الجغرافية', criteria: 'الحي والنطاق الجغرافي المطلوب', value: values.region || values.neighborhood ? Math.floor(Math.random() * 10) + 25 : 5, fill: 'hsl(var(--chart-2))', icon: <LocateFixed className="h-5 w-5" />, score: Math.floor(Math.random() * 20) + 78 },
-        { name: 'المساحة والميزانية', criteria: 'المساحة والميزانية المحددة', value: values.area || values.budgetMax ? Math.floor(Math.random() * 10) + 20 : 5, fill: 'hsl(var(--chart-1))', icon: <Square className="h-5 w-5" />, score: Math.floor(Math.random() * 20) + 70 },
-        { name: 'المواصفات الإضافية', criteria: 'الغرف، الخدمات، سنة البناء، إلخ', value: (values.bedrooms || values.bathrooms || values.commercialCategory || (values.services && values.services.length > 0) || values.yearBuilt || values.floors || values.parkingSpots) ? Math.floor(Math.random() * 10) + 15 : 5, fill: 'hsl(var(--chart-4))', icon: <Cog className="h-5 w-5" />, score: Math.floor(Math.random() * 20) + 65 },
+        { name: 'استخدام ونوع العقار', criteria: 'نوع واستخدام العقار المحدد', value: values.usage && values.propertyType ? Math.floor(Math.random() * 10) + 20 : 5, fill: 'hsl(var(--chart-3))', icon: Building2Icon, score: Math.floor(Math.random() * 20) + 75 },
+        { name: 'الموقع والتفضيلات الجغرافية', criteria: 'الحي والنطاق الجغرافي المطلوب', value: values.region || values.neighborhood ? Math.floor(Math.random() * 10) + 25 : 5, fill: 'hsl(var(--chart-2))', icon: LocateFixed, score: Math.floor(Math.random() * 20) + 78 },
+        { name: 'المساحة والميزانية', criteria: 'المساحة والميزانية المحددة', value: values.area || values.budgetMax ? Math.floor(Math.random() * 10) + 20 : 5, fill: 'hsl(var(--chart-1))', icon: Square, score: Math.floor(Math.random() * 20) + 70 },
+        { name: 'المواصفات الإضافية', criteria: 'الغرف، الخدمات، سنة البناء، إلخ', value: (values.bedrooms || values.bathrooms || values.commercialCategory || (values.services && values.services.length > 0) || values.yearBuilt || values.floors || values.parkingSpots) ? Math.floor(Math.random() * 10) + 15 : 5, fill: 'hsl(var(--chart-4))', icon: Cog, score: Math.floor(Math.random() * 20) + 65 },
     ];
 
     const totalValue = breakdown.reduce((sum, item) => sum + item.value, 0);
@@ -240,7 +240,7 @@ export default function PropertyMatchCalculator() {
         finalBreakdown[0].value += diff; 
     }
 
-    const finalCards = finalBreakdown.map(item => ({ label: item.name, criteria: item.criteria, value: item.value, score: item.score, icon: React.cloneElement(item.icon, { style: { color: item.fill, margin: '0 auto 0.5rem auto', width: '1.75rem', height: '1.75rem' } }), colorVar: item.fill.replace('hsl(var(', '').replace('))', '') }));
+    const finalCards = finalBreakdown.map(item => ({ label: item.name, criteria: item.criteria, value: item.value, score: item.score, icon: item.icon, colorVar: item.fill.replace('hsl(var(', '').replace('))', '') }));
     setResultsData({ overall: newOverall, breakdown: finalBreakdown.map(({ name, value, fill, icon }) => ({ name, value, fill, icon })), cards: finalCards, });
     
     // تأخير إظهار النتائج لتأثير أفضل
@@ -485,7 +485,7 @@ export default function PropertyMatchCalculator() {
               className="bg-card text-center border-border hover:shadow-lg transition-all duration-300 hover:translate-y-[-5px]"
               style={{ animationDelay: `${index * 150}ms`, animationDuration: '500ms', animationName: 'fadeIn', animationFillMode: 'forwards' }}>
               <CardHeader className="pb-2 pt-4">
-                {React.cloneElement(card.icon, { style: {...card.icon.props.style }})}
+                {React.createElement(card.icon, { className: "h-7 w-7", style: { color: card.colorVar ? `hsl(var(${card.colorVar}))` : 'hsl(var(--foreground))', margin: '0 auto 0.5rem auto' } })}
                 <CardTitle className="text-lg font-semibold" style={{color: card.colorVar ? `hsl(var(${card.colorVar}))` : 'hsl(var(--foreground))'}}>{card.label}</CardTitle>
               </CardHeader>
               <CardContent className="pb-5 pt-2">

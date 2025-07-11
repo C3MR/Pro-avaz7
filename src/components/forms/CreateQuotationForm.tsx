@@ -47,12 +47,12 @@ const quotationStatuses: { value: QuotationStatus; labelAr: string }[] = [
   { value: "مُلغى", labelAr: "مُلغى" },
 ];
 
-const quotationServiceTypes: { value: QuotationServiceType; labelAr: string; icon: React.ReactElement }[] = [
-    { value: "rental_services", labelAr: "خدمات تأجير", icon: <Handshake/> },
-    { value: "property_management", labelAr: "إدارة عقارات", icon: <BuildingIcon/> },
-    { value: "marketing_services", labelAr: "خدمات تسويق عقاري", icon: <BarChart3/> },
-    { value: "general_consultancy", labelAr: "استشارات عامة", icon: <ConciergeBell/> },
-    { value: "other_services", labelAr: "خدمات أخرى", icon: <Settings2/> },
+const quotationServiceTypes: { value: QuotationServiceType; labelAr: string; icon: React.ComponentType<any> }[] = [
+    { value: "rental_services", labelAr: "خدمات تأجير", icon: Handshake },
+    { value: "property_management", labelAr: "إدارة عقارات", icon: BuildingIcon },
+    { value: "marketing_services", labelAr: "خدمات تسويق عقاري", icon: BarChart3 },
+    { value: "general_consultancy", labelAr: "استشارات عامة", icon: ConciergeBell },
+    { value: "other_services", labelAr: "خدمات أخرى", icon: Settings2 },
 ];
 
 const propertyUsagesList: { value: PropertyUsage; labelAr: string }[] = [
