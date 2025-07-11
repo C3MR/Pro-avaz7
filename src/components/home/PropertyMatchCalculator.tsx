@@ -91,7 +91,7 @@ const serviceOptionsList: { id: ServiceId; label: string; icon: React.ComponentT
 
 const riyadhRegionEnum = z.custom<RiyadhRegion>((val) => RIYADH_REGIONS.map(r => r.value).includes(val as RiyadhRegion) || val === undefined, { message: "الرجاء اختيار النطاق" }).optional();
 const serviceIds = serviceOptionsList.map(s => s.id) as const;
-const serviceIdEnum = z.enum(serviceIds as [ServiceId, ...ServiceId[]]);
+const serviceIdEnum = z.enum(serviceIds);
 
 const formSchema = z.object({
   purpose: z.custom<MatchCalculatorPurpose>((val) => matchCalculatorPurposes.map(p => p.value).includes(val as MatchCalculatorPurpose),{
