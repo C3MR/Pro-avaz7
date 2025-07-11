@@ -162,14 +162,14 @@ const formSchema = z.object({
 const initialResultsData = {
   overall: 75,
   breakdown: [
-    { name: 'استخدام العقار', value: 24, fill: 'var(--chart-3)', icon: <Building2Icon className="h-5 w-5" /> },
-    { name: 'الموقع', value: 28, fill: 'var(--chart-2)', icon: <LocateFixed className="h-5 w-5" /> },
-    { name: 'المساحة', value: 23, fill: 'var(--chart-1)', icon: <Square className="h-5 w-5" /> },
+    { name: 'استخدام العقار', value: 24, fill: 'hsl(var(--chart-3))', icon: <Building2Icon className="h-5 w-5" /> },
+    { name: 'الموقع', value: 28, fill: 'hsl(var(--chart-2))', icon: <LocateFixed className="h-5 w-5" /> },
+    { name: 'المساحة', value: 23, fill: 'hsl(var(--chart-1))', icon: <Square className="h-5 w-5" /> },
   ],
   cards: [
-    { label: 'استخدام العقار', criteria: 'نوع واستخدام العقار', value: 24, score: 88, icon: <Building2Icon className="h-7 w-7" />, colorVar: '--chart-3' },
-    { label: 'الموقع', criteria: 'الحي والنطاق الجغرافي', value: 28, score: 92, icon: <LocateFixed className="h-7 w-7" />, colorVar: '--chart-2' },
-    { label: 'المساحة', criteria: 'المساحة المقترحة مقابل المطلوبة', value: 23, score: 85, icon: <Square className="h-7 w-7" />, colorVar: '--chart-1' },
+    { label: 'استخدام العقار', criteria: 'نوع واستخدام العقار', value: 24, score: 88, icon: <Building2Icon className="h-7 w-7" />, colorVar: 'hsl(var(--chart-3))' },
+    { label: 'الموقع', criteria: 'الحي والنطاق الجغرافي', value: 28, score: 92, icon: <LocateFixed className="h-7 w-7" />, colorVar: 'hsl(var(--chart-2))' },
+    { label: 'المساحة', criteria: 'المساحة المقترحة مقابل المطلوبة', value: 23, score: 85, icon: <Square className="h-7 w-7" />, colorVar: 'hsl(var(--chart-1))' },
   ]
 };
 
