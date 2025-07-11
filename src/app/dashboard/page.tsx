@@ -4,7 +4,7 @@
 import * as React from "react"; 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { ListChecks, PlusCircle, CheckCircle, XCircle as XCircleIconLucide, Users as UsersIcon, Edit3, Phone, MessageCircle, UserCog as UserRoleIcon } from "lucide-react"; 
+import { ListChecks, PlusCircle, CheckCircle, XCircle as XCircleIconLucide, Users as UsersIcon, Edit3, Phone, MessageCircle, UserCog as UserRoleIcon, Home, Building, BarChart3, TrendingUp, DollarSign, Clock, CalendarClock, ChevronRight, Award, FileText } from "lucide-react"; 
 import EmployeeDetailsDialog from "@/components/dashboard/EmployeeDetailsDialog"; 
 import type { SystemUser, TargetedClient, UserRole } from "@/types"; 
 import Link from 'next/link';
@@ -17,6 +17,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  BarChart,
+  Bar,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+} from "recharts";
 import { Badge } from "@/components/ui/badge";
 
 // Mock data for users including passwords (ONLY FOR MOCK LOGIN - DO NOT DO THIS IN PRODUCTION)
@@ -150,13 +165,13 @@ export default function DashboardPage() {
     <div className="space-y-8 bg-background p-4 md:p-6 rounded-lg shadow-inner" dir="rtl">
       <header className="mb-8">
         <h1 className="text-3xl md:text-4xl font-bold text-accent font-headline">لوحة تحكم المشرف</h1>
-        <p className="text-muted-foreground mt-2">نظرة شاملة على أداء النظام والفرق.</p>
+        <p className="text-muted-foreground mt-2">نظرة شاملة على أداء النظام والمؤشرات العقارية.</p>
       </header>
 
-      <section>
-         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <section className="mb-6">
+         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
             {stats.map((stat) => (
-            <Card key={stat.title} className="shadow-md hover:shadow-xl transition-all duration-300 bg-card transform hover:-translate-y-1">
+            <Card key={stat.title} className="shadow-md hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-card to-primary/5 transform hover:-translate-y-1">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
                     {stat.title}
@@ -168,10 +183,226 @@ export default function DashboardPage() {
                 </CardContent>
             </Card>
             ))}
+            <Card className="shadow-md hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-card to-accent/5 transform hover:-translate-y-1">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                    إجمالي العقارات
+                </CardTitle>
+                <Building className="h-6 w-6 text-accent" />
+                </CardHeader>
+                <CardContent>
+                <div className="text-2xl font-bold text-accent">47</div>
+                </CardContent>
+            </Card>
+        </div>
+      </section>
+      
+      {/* Charts Section */}
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold text-primary mb-4 flex items-center gap-2">
+          <BarChart3 className="h-5 w-5 text-primary" /> 
+          مؤشرات الأداء الرئيسية
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card className="shadow-lg">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-semibold text-foreground">توزيع الطلبات حسب النوع</CardTitle>
+              <CardDescription>تحليل لتوزيع الطلبات العقارية</CardDescription>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="h-72">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'سكني', value: 70, fill: 'hsl(var(--chart-1))' },
+                        { name: 'تجاري', value: 30, fill: 'hsl(var(--chart-2))' },
+                        { name: 'أراضي', value: 25, fill: 'hsl(var(--chart-3))' },
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={true}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={80}
+                      dataKey="value"
+                    />
+                    <Tooltip formatter={(value) => [`${value}`, 'عدد الطلبات']} />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="shadow-lg">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-semibold text-foreground">معدل الإنجاز الشهري</CardTitle>
+              <CardDescription>مؤشر معدل إنجاز الطلبات على مدى 6 أشهر</CardDescription>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="h-72">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart
+                    data={[
+                      { month: 'يناير', completed: 15, pending: 8 },
+                      { month: 'فبراير', completed: 18, pending: 10 },
+                      { month: 'مارس', completed: 20, pending: 7 },
+                      { month: 'أبريل', completed: 25, pending: 12 },
+                      { month: 'مايو', completed: 22, pending: 9 },
+                      { month: 'يونيو', completed: 30, pending: 5 },
+                    ]}
+                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
+                    <XAxis dataKey="month" tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'hsl(var(--card))', 
+                        borderColor: 'hsl(var(--border))',
+                        direction: 'rtl' 
+                      }} 
+                    />
+                    <Legend />
+                    <Line type="monotone" dataKey="completed" name="منجزة" stroke="hsl(var(--chart-1))" strokeWidth={2} />
+                    <Line type="monotone" dataKey="pending" name="قيد التنفيذ" stroke="hsl(var(--chart-2))" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+      
+      {/* Recent Activity Section */}
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold text-primary mb-4 flex items-center gap-2">
+          <Clock className="h-5 w-5 text-primary" /> 
+          النشاط الحديث
+        </h2>
+        <Card className="shadow-lg">
+          <CardContent className="p-0">
+            <div className="divide-y divide-border">
+              <div className="p-4 flex items-center">
+                <div className="bg-primary/10 p-2 rounded-full ml-4">
+                  <FileText className="h-5 w-5 text-primary" />
+                </div>
+                <div className="flex-grow">
+                  <p className="text-sm font-medium">تم إنشاء عرض سعر جديد <span className="text-primary font-bold">#AVZ-Q2407-568</span></p>
+                  <p className="text-xs text-muted-foreground">منذ ساعتين · بواسطة علي الزويدي</p>
+                </div>
+                <Button asChild variant="ghost" size="sm">
+                  <Link href="/dashboard/quotations/AVZ-Q2407-568">
+                    <ChevronRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+              <div className="p-4 flex items-center">
+                <div className="bg-accent/10 p-2 rounded-full ml-4">
+                  <Home className="h-5 w-5 text-accent" />
+                </div>
+                <div className="flex-grow">
+                  <p className="text-sm font-medium">تمت إضافة عقار جديد <span className="text-accent font-bold">فيلا الفارس - النرجس</span></p>
+                  <p className="text-xs text-muted-foreground">منذ 5 ساعات · بواسطة منصور القميزي</p>
+                </div>
+                <Button asChild variant="ghost" size="sm">
+                  <Link href="/dashboard/properties/PA-24-07-01">
+                    <ChevronRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+              <div className="p-4 flex items-center">
+                <div className="bg-green-100 dark:bg-green-900/30 p-2 rounded-full ml-4">
+                  <CheckCircle className="h-5 w-5 text-green-500 dark:text-green-400" />
+                </div>
+                <div className="flex-grow">
+                  <p className="text-sm font-medium">تم إكمال مهمة <span className="text-green-600 dark:text-green-400 font-bold">مراجعة عقد الإيجار</span></p>
+                  <p className="text-xs text-muted-foreground">أمس · بواسطة عمر الحيدري</p>
+                </div>
+                <Button asChild variant="ghost" size="sm">
+                  <Link href="/dashboard/tasks">
+                    <ChevronRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+      
+      {/* Quick Statistics */}
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold text-primary mb-4 flex items-center gap-2">
+          <TrendingUp className="h-5 w-5 text-primary" /> 
+          المؤشرات المالية
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <Card className="shadow-lg bg-gradient-to-br from-primary/5 via-transparent to-transparent">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-semibold text-foreground">إجمالي المبيعات</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-3xl font-bold text-primary">8.2M</p>
+                  <p className="text-sm text-muted-foreground">ريال سعودي</p>
+                </div>
+                <div className="bg-primary/10 p-3 rounded-full">
+                  <DollarSign className="h-8 w-8 text-primary" />
+                </div>
+              </div>
+              <div className="mt-2 flex items-center text-green-500">
+                <TrendingUp className="h-4 w-4 mr-1" />
+                <span className="text-sm">+12.5% من الشهر الماضي</span>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="shadow-lg bg-gradient-to-br from-accent/5 via-transparent to-transparent">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-semibold text-foreground">متوسط وقت الإنجاز</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-3xl font-bold text-accent">18.5</p>
+                  <p className="text-sm text-muted-foreground">يوم</p>
+                </div>
+                <div className="bg-accent/10 p-3 rounded-full">
+                  <CalendarClock className="h-8 w-8 text-accent" />
+                </div>
+              </div>
+              <div className="mt-2 flex items-center text-green-500">
+                <TrendingUp className="h-4 w-4 mr-1" />
+                <span className="text-sm">تحسن بمقدار 2.3 يوم</span>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="shadow-lg bg-gradient-to-br from-yellow-500/5 via-transparent to-transparent">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-semibold text-foreground">معدل رضا العملاء</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-3xl font-bold text-yellow-500">94.7%</p>
+                  <p className="text-sm text-muted-foreground">نسبة الرضا</p>
+                </div>
+                <div className="bg-yellow-500/10 p-3 rounded-full">
+                  <Award className="h-8 w-8 text-yellow-500" />
+                </div>
+              </div>
+              <div className="mt-2 flex items-center text-green-500">
+                <TrendingUp className="h-4 w-4 mr-1" />
+                <span className="text-sm">+1.2% من الربع الماضي</span>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="grid lg:grid-cols-3 gap-8 mb-8">
         <Card className="lg:col-span-2 shadow-md hover:shadow-lg transition-shadow bg-card">
           <CardHeader>
             <div className="flex items-center gap-2">
@@ -271,8 +502,8 @@ export default function DashboardPage() {
         <Card className="shadow-md hover:shadow-lg transition-shadow bg-card">
           <CardHeader>
             <div className="flex items-center gap-2">
-              <UsersIcon className="h-6 w-6 text-primary" />
-              <CardTitle className="text-xl font-headline text-primary">قائمة المستخدمين</CardTitle>
+              <UsersIcon className="h-6 w-6 text-accent" />
+              <CardTitle className="text-xl font-headline text-accent">فريق العمل</CardTitle>
             </div>
             <CardDescription>قائمة بالموظفين المصرح لهم بالدخول للنظام وأدوارهم.</CardDescription>
           </CardHeader>
@@ -282,7 +513,7 @@ export default function DashboardPage() {
                 {systemUsers.map((user) => (
                   <div 
                     key={user.id} 
-                    className="flex items-center justify-between p-3 border rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer hover:shadow-md"
+                    className="flex items-center justify-between p-3 border rounded-lg bg-muted/30 hover:bg-muted/50 transition-all cursor-pointer hover:shadow-md hover:border-primary/30"
                     onClick={() => handleUserClick(user)} 
                   >
                     <div className="flex items-center gap-3">
@@ -291,7 +522,7 @@ export default function DashboardPage() {
                       </Avatar>
                       <div>
                         <p className="text-sm font-semibold text-foreground">{user.name}</p>
-                        <p className="text-xs text-muted-foreground">{user.email}</p>
+                      <p className="text-xs text-muted-foreground/80">{user.email}</p>
                         {user.hireDate && <p className="text-xs text-muted-foreground/70">تاريخ التعيين: {user.hireDate}</p>}
                       </div>
                     </div>
