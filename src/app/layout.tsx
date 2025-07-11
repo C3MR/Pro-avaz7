@@ -2,10 +2,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-import ErrorBoundary from '@/components/error-handling/ErrorBoundary';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { QueryClientProvider } from '@/lib/api/query-client-provider';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import { Almarai } from 'next/font/google';
 
@@ -33,16 +33,18 @@ export default function RootLayout({
         {/* Google Fonts link is handled by next/font */}
       </head>
       <body className={`${almarai.variable} font-body antialiased flex flex-col min-h-screen bg-background`}>
-       <ErrorBoundary>
-        <Navbar />
-        <main className="flex-grow container mx-auto px-4 py-8 md:py-12 max-w-screen-xl">
-          {children}
-        </main>
-        <Footer />
-        <Toaster />
-       </ErrorBoundary>
-      </body>
-    </html>
+       <QueryClientProvider>
+         <ErrorBoundary>
+           <Navbar />
+           <main className="flex-grow container mx-auto px-4 py-8 md:py-12 max-w-screen-xl">
+             {children}
+           </main>
+           <Footer />
+           <Toaster />
+         </ErrorBoundary>
+       </QueryClientProvider>
   );
 }
     
+  )
+}
