@@ -20,6 +20,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'www.gstatic.com', pathname: '/**' },
       { protocol: 'https', hostname: 'momah.gov.sa', pathname: '/**' },
       { protocol: 'https', hostname: 'rega.gov.sa', pathname: '/**' },
+      { protocol: 'https', hostname: 'images.pexels.com', pathname: '/**' },
     ],
   },
 };
