@@ -1,8 +1,6 @@
 
 "use client";
 
-"use client";
-
 import React, { useState, useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
