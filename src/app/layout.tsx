@@ -8,6 +8,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { QueryClientProvider } from '@/lib/api/query-client-provider';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import { Almarai } from 'next/font/google';
+import ErrorBoundary from '@/components/error-handling/ErrorBoundary';
 
 // Configure Almarai font
 const almarai = Almarai({
