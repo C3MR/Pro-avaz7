@@ -37,7 +37,6 @@ import Image from 'next/image';
 import { CarIcon } from "@/components/icons/CarIcon";
 import { RIYADH_REGIONS, RIYADH_NEIGHBORHOODS_WITH_REGIONS, ALL_RIYADH_NEIGHBORHOODS_FOR_SELECT } from "@/lib/constants";
 
-
 const propertyUsages: { value: PropertyUsage; labelAr: string; labelEn: string }[] = [
   { value: "Residential", labelAr: "سكني", labelEn: "Residential" },
   { value: "Commercial", labelAr: "تجاري", labelEn: "Commercial" },
