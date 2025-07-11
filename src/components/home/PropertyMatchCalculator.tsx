@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { RefreshCcw, FilePlus2, Percent, Building2 as Building2Icon, Square, LocateFixed, ChevronDown, Cog, BedDouble, Bath, Home, Briefcase, Calendar as CalendarIcon, ParkingCircle, Palette, Globe, MapPin, Edit3 } from 'lucide-react';
-import { Bar, BarChart as RechartsBarChart, Cell, RadialBar, RadialBarChart, ResponsiveContainer, Tooltip, XAxis, YAxis, PolarAngleAxis, LabelList } from 'recharts';
+import { Bar, BarChart as RechartsBarChart, Cell, RadialBar, RadialBarChart, ResponsiveContainer, Tooltip as RechartsTooltip, XAxis, YAxis, PolarAngleAxis, LabelList } from 'recharts';
 import type { PropertyUsage, RiyadhRegion, MatchCalculatorPropertyType, MatchCalculatorPurpose, MatchCalculatorFormValues, CommercialCategory, ServiceId, ResidentialPropertyType, CommercialPropertyType as CommercialPropertyTypeEnum } from '@/types';
 import { RIYADH_REGIONS, RIYADH_NEIGHBORHOODS_WITH_REGIONS, ALL_RIYADH_NEIGHBORHOODS_FOR_SELECT } from "@/lib/constants";
 import { Zap, ShieldCheck, Sparkles, Wrench, ReceiptText, Droplets, Siren, ArrowUpDown, Wifi } from "lucide-react";
@@ -467,7 +467,7 @@ export default function PropertyMatchCalculator() {
               <RechartsBarChart data={resultsData.breakdown} layout="vertical" margin={{ top: 5, right: 20, left: 20, bottom: 5 }} barCategoryGap="35%">
                 <XAxis type="number" domain={[0, Math.max(...resultsData.breakdown.map(item => item.value), 40)]} hide/>
                 <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} width={110} style={{ fontSize: '0.9rem', fill: 'hsl(var(--muted-foreground))' }}/>
-                <Tooltip cursor={{fill: 'hsl(var(--muted)/0.2)'}} contentStyle={{backgroundColor: 'hsl(var(--background))', borderRadius: '0.5rem', borderColor: 'hsl(var(--border))', direction: 'rtl'}} labelStyle={{color: 'hsl(var(--foreground))', fontWeight: 'bold'}} formatter={(value: number, name: string) => [`${value}%`, name]}/>
+                <RechartsTooltip cursor={{fill: 'hsl(var(--muted)/0.2)'}} contentStyle={{backgroundColor: 'hsl(var(--background))', borderRadius: '0.5rem', borderColor: 'hsl(var(--border))', direction: 'rtl'}} labelStyle={{color: 'hsl(var(--foreground))', fontWeight: 'bold'}} formatter={(value: number, name: string) => [`${value}%`, name]}/>
                 <Bar dataKey="value" radius={[0, 5, 5, 0]} barSize={30} animationDuration={1200} animationBegin={300}>
                   {resultsData.breakdown.map((entry, index) => (<Cell key={`cell-${index}`} fill={entry.fill} />))}
                   <LabelList dataKey="value" position="center" style={{ fill: 'hsl(var(--primary-foreground))', fontSize: '1rem', fontWeight: 'bold', }} formatter={(value: number) => `${value}%`} />
