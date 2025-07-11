@@ -695,12 +695,6 @@ export default function MarketDataPage() {
             )
           )}
           
-          {activeView === 'table' && filteredTransactions.length > 0 && (
-            <p className="text-center text-muted-foreground py-4 text-sm">
-                لا توجد صفقات تطابق معايير البحث الحالية.
-              </p>
-            )
-          )}
         </CardContent>
       </Card>
     </div>
