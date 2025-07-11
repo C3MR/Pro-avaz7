@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ArrowLeft, Search, MapPin as MapPinIconLucide, Briefcase, ShieldCheck, Handshake, Building, Settings, Home as HomeIconLucide, GalleryHorizontalEnd, LineChart, HeartHandshake, ClipboardEdit, Building2 as Building2Icon, PlusCircle, Percent, Lightbulb, Users, Camera, Megaphone, Globe, Headset, CircleDollarSign, Wrench, FileText, BarChartBig, SearchCheck, MapIcon, Store, X, Landmark, Sofa, Map, Star, TrendingUp, BookOpen, Compass, Map as MapIconNav, CalendarDays, DollarSign, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Search, MapPin as MapPinIconLucide, Briefcase, ShieldCheck, Handshake, Building, Settings, Home as HomeIconLucide, GalleryHorizontalEnd, LineChart, HeartHandshake, ClipboardEdit, Building2 as Building2Icon, PlusCircle, Percent, Lightbulb, Users, Camera, Megaphone, Globe, Headset, CircleDollarSign, Wrench, FileText, BarChartBig, SearchCheck, MapIcon, Store, X, Landmark, Sofa, Map, Star, TrendingUp, BookOpen, Compass, Map as MapIconNav, CalendarDays, DollarSign, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
