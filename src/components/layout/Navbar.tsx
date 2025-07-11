@@ -8,6 +8,7 @@ import { Home, Archive, FilePlus2, Search, Building, GalleryVerticalEnd, PlusSqu
 import { Button } from '@/components/ui/button';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import NetworkStatusIndicator from '@/components/error-handling/NetworkStatusIndicator';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -111,6 +112,7 @@ export default function Navbar() {
           />
         </Link>
         <div className="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+          <NetworkStatusIndicator className="mr-2 rtl:ml-2 rtl:mr-0 hidden sm:flex" />
           {navigationItems.map((item) => {
             if (item.requiresAuth && !authenticatedUser) return null;
             if (item.hideWhenAuth && authenticatedUser) return null;
