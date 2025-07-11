@@ -45,8 +45,7 @@ export default function EmployeeDetailsDialog({ user, isOpen, onClose }: Employe
             بطاقة الموظف | {user.name}
           </DialogTitle>
         </DialogHeader>
-          className="grid grid-cols-1 md:grid-cols-3 gap-0 bg-card/50"
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 bg-card/50">
           {/* Left Pane */}
           <div className="md:col-span-1 bg-muted/30 p-6 flex flex-col items-center text-center border-l border-border relative">
             <div className="absolute top-2 left-2 bg-primary/10 px-2 py-1 rounded-md text-xs text-primary/70 font-medium">
