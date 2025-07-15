@@ -196,7 +196,7 @@ const testimonials = [
 const latestMarketTransactions = [
   {
     id: "TX001",
-    date: "2025-04-18T00:00:00.000Z",
+    date: new Date("2025-04-18"),
     neighborhood: "النرجس",
     propertyType: "فيلا",
     area: 450,
@@ -207,7 +207,7 @@ const latestMarketTransactions = [
   },
   { 
     id: "TX002",
-    date: "2025-04-15T00:00:00.000Z",
+    date: new Date("2025-04-15"),
     neighborhood: "العارض",
     propertyType: "أرض تجارية",
     area: 1200,
@@ -218,7 +218,7 @@ const latestMarketTransactions = [
   },
   { 
     id: "TX003",
-    date: "2025-04-12T00:00:00.000Z",
+    date: new Date("2025-04-12"),
     neighborhood: "الصحافة",
     propertyType: "شقة",
     area: 180,
@@ -433,7 +433,7 @@ export default function Home() {
                     </h3>
                     <div className="flex items-center text-sm text-muted-foreground">
                       <CalendarDays className="h-3.5 w-3.5 ml-1" />
-                      {new Date(transaction.date).toLocaleDateString('ar-SA', {year: 'numeric', month: 'numeric', day: 'numeric'})}
+                      {transaction.date.toLocaleDateString('ar-SA', {year: 'numeric', month: 'numeric', day: 'numeric'})}
                     </div>
                   </div>
                   

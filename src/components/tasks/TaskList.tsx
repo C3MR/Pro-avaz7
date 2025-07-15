@@ -18,9 +18,9 @@ const getRandomUser = () => {
 };
 
 // Generate more varied mock attachments
-const generateMockAttachments = (count: number = 0): Omit<TaskAttachment, 'uploadedAt'>[] & {uploadedAt: string}[] => {
+const generateMockAttachments = (count: number = 0): TaskAttachment[] => {
   if (count === 0) return [];
-  const attachments: (Omit<TaskAttachment, 'uploadedAt'> & {uploadedAt: string})[] = [];
+  const attachments: TaskAttachment[] = [];
   const types: TaskAttachment['type'][] = ['pdf', 'image', 'document', 'other'];
   const names = ['تقرير_نهائي', 'صورة_العقار', 'مستند_العقد', 'ملاحظات_اجتماع', 'فاتورة_الصيانة'];
   const extensions = { pdf: '.pdf', image: '.jpg', document: '.docx', other: '.zip' };
@@ -34,7 +34,7 @@ const generateMockAttachments = (count: number = 0): Omit<TaskAttachment, 'uploa
       url: "#", // Placeholder URL
       type: type,
       size: Math.floor(Math.random() * (5000 - 100 + 1) + 100) * 1024, // Size in KB
-      uploadedAt: new Date(new Date().getTime() - Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000).toISOString(),
+      uploadedAt: new Date(new Date().getTime() - Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000),
     });
   }
   return attachments;
@@ -46,7 +46,7 @@ export const mockTasks: Task[] = [
     id: "task-1",
     title: "مراجعة عقد الإيجار لعقار 'برج الأندلس'",
     description: "التدقيق في كافة بنود عقد الإيجار الجديد الخاص ببرج الأندلس والتأكد من مطابقته للشروط القياسية والمعايير القانونية المتبعة. يجب مراجعة بند الصيانة وقيمة الإيجار السنوي.",
-    dueDate: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+    dueDate: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000),
     priority: "high",
     status: "pending",
     type: "property",
@@ -56,15 +56,15 @@ export const mockTasks: Task[] = [
     assigneeName: mockUsers.length > 0 ? mockUsers[0].name : "أحمد خالد",
     assignerId: mockUsers.length > 1 ? mockUsers[1].email : "admin@example.com",
     assignerName: mockUsers.length > 1 ? mockUsers[1].name : "المدير",
-    createdAt: new Date(new Date().getTime() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+    createdAt: new Date(new Date().getTime() - 5 * 24 * 60 * 60 * 1000),
+    updatedAt: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000),
     attachments: generateMockAttachments(2),
   },
   {
     id: "task-2",
     title: "إعداد عرض سعر لمشروع 'مكاتب طريق الملك فهد'",
     description: "تجهيز عرض سعر مفصل لتأجير مساحة مكتبية في مشروع مكاتب طريق الملك فهد، شاملًا التكاليف، الميزات، وشروط الدفع لشركة 'التقنية المتقدمة'.",
-    dueDate: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+    dueDate: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
     priority: "medium",
     status: "pending",
     type: "quote",
@@ -74,14 +74,14 @@ export const mockTasks: Task[] = [
     assigneeName: mockUsers.length > 2 ? mockUsers[2].name : "سارة عبدالله",
     assignerId: mockUsers.length > 1 ? mockUsers[1].email : "admin@example.com",
     assignerName: mockUsers.length > 1 ? mockUsers[1].name : "المدير",
-    createdAt: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    createdAt: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000),
+    updatedAt: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000),
   },
   {
     id: "task-3",
     title: "متابعة طلب العميل 'خالد عبدالرحمن' لعقار سكني",
     description: "التواصل مع العميل خالد عبدالرحمن لمناقشة آخر تطورات طلبه بخصوص البحث عن فيلا في شمال الرياض، وتقديم قائمة بالعقارات المطابقة.",
-    dueDate: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000).toISOString(), // Overdue
+    dueDate: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000), // Overdue
     priority: "high",
     status: "pending", 
     type: "general",
@@ -91,15 +91,15 @@ export const mockTasks: Task[] = [
     assigneeName: mockUsers.length > 0 ? mockUsers[0].name : "أحمد خالد",
     assignerId: mockUsers.length > 2 ? mockUsers[2].email : "supervisor@example.com",
     assignerName: mockUsers.length > 2 ? mockUsers[2].name : "المشرف العام",
-    createdAt: new Date(new Date().getTime() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(new Date().getTime() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    createdAt: new Date(new Date().getTime() - 10 * 24 * 60 * 60 * 1000),
+    updatedAt: new Date(new Date().getTime() - 3 * 24 * 60 * 60 * 1000),
     attachments: generateMockAttachments(1),
   },
   {
     id: "task-4",
     title: "تحديث قائمة العقارات التجارية المتاحة على الموقع",
     description: "مراجعة قائمة العقارات التجارية المعروضة على الموقع الإلكتروني والتأكد من تحديث حالاتها (متاح، مؤجر، مباع) وإضافة أي عقارات جديدة.",
-    dueDate: new Date(new Date().getTime() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+    dueDate: new Date(new Date().getTime() + 4 * 24 * 60 * 60 * 1000),
     priority: "medium",
     status: "pending",
     type: "property",
@@ -108,14 +108,14 @@ export const mockTasks: Task[] = [
     assigneeName: mockUsers.length > 1 ? mockUsers[1].name : "فهد المطور",
     assignerId: mockUsers.length > 0 ? mockUsers[0].email : "admin@example.com",
     assignerName: mockUsers.length > 0 ? mockUsers[0].name : "المدير",
-    createdAt: new Date(new Date().getTime() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(new Date().getTime() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    createdAt: new Date(new Date().getTime() - 3 * 24 * 60 * 60 * 1000),
+    updatedAt: new Date(new Date().getTime() - 3 * 24 * 60 * 60 * 1000),
   },
   {
     id: "task-5",
     title: "إتمام صفقة بيع أرض 'الرمال الذهبية'",
     description: "استكمال كافة الإجراءات القانونية والمالية لإتمام صفقة بيع قطعة الأرض المعروفة باسم 'الرمال الذهبية' للمستثمر 'شركة البناء المتحدة'.",
-    dueDate: new Date(new Date().getTime() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    dueDate: new Date(new Date().getTime() - 3 * 24 * 60 * 60 * 1000),
     priority: "high",
     status: "completed",
     type: "property",
@@ -125,15 +125,15 @@ export const mockTasks: Task[] = [
     assigneeName: getRandomUser().name,
     assignerId: getRandomUser().id,
     assignerName: getRandomUser().name,
-    createdAt: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    createdAt: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
+    updatedAt: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000),
     attachments: generateMockAttachments(3),
   },
   {
     id: "task-6",
     title: "تنظيم حملة تسويقية لمشروع 'فلل الياسمين'",
     description: "وضع خطة تسويقية شاملة لمشروع فلل الياسمين الجديد، تتضمن التسويق الرقمي والإعلانات المطبوعة وتنظيم يوم مفتوح.",
-    dueDate: new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000).toISOString(),
+    dueDate: new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000),
     priority: "low",
     status: "pending",
     type: "general",
@@ -142,8 +142,8 @@ export const mockTasks: Task[] = [
     assigneeName: getRandomUser().name,
     assignerId: getRandomUser().id,
     assignerName: getRandomUser().name,
-    createdAt: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+    createdAt: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000),
+    updatedAt: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000),
   },
 ];
 

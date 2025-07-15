@@ -164,10 +164,9 @@ export interface AuthenticatedUser {
 
 export interface CommunicationEntry {
   id: string;
-  timestamp: string;
+  timestamp: Date;
   notes: string;
   employee: string;
-  date: string;
 }
 
 export interface TargetedClient {
@@ -183,7 +182,7 @@ export interface TargetedClient {
     date: Date;
   };
   nextAction?: string;
-  nextActionDate?: string;
+  nextActionDate?: Date;
 }
 
 export type PropertyListingPurpose = "For Sale" | "For Rent" | "For Investment";
@@ -313,14 +312,14 @@ export interface TaskAttachment {
   url: string;
   type: 'pdf' | 'image' | 'document' | 'other';
   size?: number; 
-  uploadedAt: string;
+  uploadedAt: Date;
 }
 
 export interface Task {
   id: string;
   title: string;
   description?: string;
-  dueDate: string;
+  dueDate?: Date | null;
   priority: TaskPriority;
   status: TaskStatus;
   type: TaskType;
@@ -330,8 +329,8 @@ export interface Task {
   assigneeName?: string; 
   assignerId?: string; 
   assignerName?: string; 
-  createdAt: string;
-  updatedAt: string;
+  attachments?: TaskAttachment[];
+  createdAt: Date;
   updatedAt: Date;
 }
 

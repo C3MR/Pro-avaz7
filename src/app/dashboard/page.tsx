@@ -61,11 +61,11 @@ export const targetedClientsData: TargetedClient[] = [
       contact: "0501234567", 
       status: "لم يتم التواصل", 
       priority: "عالية",
-      communicationLog: [ { id: "comm1_1", timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), notes: "تمت إضافة العميل إلى القائمة. يحتاج إلى اتصال أولي.", employee: "النظام" } ],
+      communicationLog: [ { id: "comm1_1", timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), notes: "تمت إضافة العميل إلى القائمة. يحتاج إلى اتصال أولي.", employee: "النظام" } ],
       generalNotes: "عميل محتمل مهم في قطاع التطوير السكني. يبحثون عن أراضي كبيرة شمال الرياض. التواصل الأولي مطلوب بشكل عاجل.",
-      lastCommunication: { employee: "النظام", date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString() },
+      lastCommunication: { employee: "النظام", date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
       nextAction: "الاتصال الأول للاستكشاف المبدئي للاحتياجات وتقديم الشركة.",
-      nextActionDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(), // Needs follow up soon
+      nextActionDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // Needs follow up soon
     },
     { 
       id: "client2",
@@ -74,13 +74,13 @@ export const targetedClientsData: TargetedClient[] = [
       status: "تم التواصل المبدئي", 
       priority: "متوسطة",
       communicationLog: [
-        { id: "comm2_1", timestamp: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(), notes: "تم الاتصال وإرسال نبذة عن خدمات أفاز عبر البريد الإلكتروني.", employee: "aziz@avaz.sa" },
-        { id: "comm2_2", timestamp: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(), notes: "أبدى العميل اهتمامًا أوليًا بالاستثمار في معارض تجارية على طريق الملك فهد.", employee: "aziz@avaz.sa" }
+        { id: "comm2_1", timestamp: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), notes: "تم الاتصال وإرسال نبذة عن خدمات أفاز عبر البريد الإلكتروني.", employee: "aziz@avaz.sa" },
+        { id: "comm2_2", timestamp: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000), notes: "أبدى العميل اهتمامًا أوليًا بالاستثمار في معارض تجارية على طريق الملك فهد.", employee: "aziz@avaz.sa" }
       ],
       generalNotes: "مهتمون بالمواقع التجارية على الطرق الرئيسية، يفضلون مساحات تزيد عن 500م².",
-      lastCommunication: { employee: "aziz@avaz.sa", date: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString() },
+      lastCommunication: { employee: "aziz@avaz.sa", date: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000) },
       nextAction: "إرسال قائمة بالعروض التجارية المتوفرة على طريق الملك فهد والمواقع المشابهة.",
-      nextActionDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+      nextActionDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
     },
     { 
       id: "client3",
@@ -89,32 +89,32 @@ export const targetedClientsData: TargetedClient[] = [
       status: "بانتظار الرد", 
       priority: "عالية",
       communicationLog: [ 
-        { id: "comm3_1", timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(), notes: "تم إرسال عرض تفصيلي لمشروع X (أرض تجارية في الملقا).", employee: "ali@avaz.sa" },
-        { id: "comm3_2", timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), notes: "تأكيد استلام العرض من قبل مدير الاستثمار لديهم.", employee: "ali@avaz.sa" }
+        { id: "comm3_1", timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), notes: "تم إرسال عرض تفصيلي لمشروع X (أرض تجارية في الملقا).", employee: "ali@avaz.sa" },
+        { id: "comm3_2", timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), notes: "تأكيد استلام العرض من قبل مدير الاستثمار لديهم.", employee: "ali@avaz.sa" }
       ],
       generalNotes: "مجموعة استثمارية كبيرة، يبحثون عن فرص ذات عوائد مرتفعة. يركزون على الأراضي والمجمعات التجارية.",
-      lastCommunication: { employee: "ali@avaz.sa", date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString() },
+      lastCommunication: { employee: "ali@avaz.sa", date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000) },
       nextAction: "متابعة الرد على العرض المرسل (بعد يومين عمل).",
-      nextActionDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(),
+      nextActionDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
     },
     { 
       id: "client4", name: "شركة الرواد العقارية", contact: "0598765432", status: "تم تحديد موعد", priority: "متوسطة",
       communicationLog: [
-         { id: "comm4_1", timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(), notes: "تم الاتفاق على موعد اجتماع يوم الأربعاء القادم الساعة 11 صباحًا في مقرهم.", employee: "faisal@avaz.sa" }
+         { id: "comm4_1", timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), notes: "تم الاتفاق على موعد اجتماع يوم الأربعاء القادم الساعة 11 صباحًا في مقرهم.", employee: "faisal@avaz.sa" }
       ],
-      lastCommunication: {employee: "faisal@avaz.sa", date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()},
+      lastCommunication: {employee: "faisal@avaz.sa", date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)},
       nextAction: "اجتماع يوم الأربعاء القادم لمناقشة فرص التعاون في تسويق مشاريعهم السكنية.",
-      nextActionDate: new Date(Date.now() + (new Date().getDay() <=3 ? 3-new Date().getDay() : 10-new Date().getDay())*24*60*60*1000).toISOString(), // Next Wednesday
+      nextActionDate: new Date(Date.now() + (new Date().getDay() <=3 ? 3-new Date().getDay() : 10-new Date().getDay())*24*60*60*1000), // Next Wednesday
     },
     { 
       id: "client5", name: "مؤسسة المستقبل الذهبي", contact: "0561122334", status: "يتطلب متابعة", priority: "منخفضة",
       generalNotes: "تم التواصل سابقًا ولم يبدوا اهتمامًا كبيرًا، ولكن يمكن إعادة التواصل بعد فترة للاستفسار عن أي مستجدات.",
       communicationLog: [
-          { id: "comm5_1", timestamp: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(), notes: "تواصل أولي، لم يكن لديهم مشاريع حالية تتطلب خدماتنا.", employee: "aziz@avaz.sa" }
+          { id: "comm5_1", timestamp: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), notes: "تواصل أولي، لم يكن لديهم مشاريع حالية تتطلب خدماتنا.", employee: "aziz@avaz.sa" }
       ],
-      lastCommunication: { employee: "aziz@avaz.sa", date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()},
+      lastCommunication: { employee: "aziz@avaz.sa", date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)},
       nextAction: "إعادة الاتصال نهاية الأسبوع القادم للاستفسار عن أي اهتمام جديد أو مشاريع مستقبلية.",
-      nextActionDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(),
+      nextActionDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
     },
     {
       id: "client6",
@@ -123,13 +123,13 @@ export const targetedClientsData: TargetedClient[] = [
       status: "تم إرسال العرض", 
       priority: "عالية",
       communicationLog: [
-        { id: "comm6_1", timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), notes: "اجتماع أولي، تم تحديد الاهتمامات الرئيسية: أراضي تجارية كبيرة شمال الرياض.", employee: "faisal@avaz.sa" },
-        { id: "comm6_2", timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(), notes: "تم إعداد وإرسال عرض أسعار مخصص لعدة قطع أراضي استثمارية في حي النرجس والعارض.", employee: "faisal@avaz.sa" }
+        { id: "comm6_1", timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), notes: "اجتماع أولي، تم تحديد الاهتمامات الرئيسية: أراضي تجارية كبيرة شمال الرياض.", employee: "faisal@avaz.sa" },
+        { id: "comm6_2", timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000), notes: "تم إعداد وإرسال عرض أسعار مخصص لعدة قطع أراضي استثمارية في حي النرجس والعارض.", employee: "faisal@avaz.sa" }
       ],
       generalNotes: "العميل يبحث عن فرص استثمارية كبيرة في الأراضي التجارية الخام. مهتم جدًا بالتوسع في شمال الرياض. تم إرسال عرض مبدئي ويتوقعون الرد خلال 3 أيام.",
-      lastCommunication: { employee: "faisal@avaz.sa", date: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString() },
+      lastCommunication: { employee: "faisal@avaz.sa", date: new Date(Date.now() - 1 * 60 * 60 * 1000) },
       nextAction: "المتابعة مع العميل خلال 48 ساعة بخصوص العرض المرسل.",
-      nextActionDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+      nextActionDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
     }
 ];
 

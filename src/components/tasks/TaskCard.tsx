@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { Task, TaskPriority, TaskStatus, TaskAttachment } from "@/types";
@@ -212,3 +213,4 @@ export default function TaskCard({ task, onEdit, onDelete, onToggleStatus }: Tas
     </Card>
   );
 }
+
